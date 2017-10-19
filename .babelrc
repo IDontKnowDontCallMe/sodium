@@ -1,0 +1,30 @@
+{
+  "presets": ["env","babel-preset-react","stage-0"],
+  "plugins": [
+    [
+      "transform-runtime",
+      {
+        "helpers": false,
+        "polyfill": false,
+        "regenerator": true,
+        "moduleName": "babel-runtime"
+      }
+    ],
+    ["lodash", { "id": ["lodash", "semantic-ui-react"] }],
+    ["transform-object-rest-spread"]
+  ],
+  "env": {
+    "development": {
+      "plugins": [["react-transform", {
+        "transforms": [{
+          "transform": "react-transform-hmr",
+
+          "imports": ["react"],
+
+          "locals": ["module"]
+        }]
+      }]]
+    }
+  }
+
+}

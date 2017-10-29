@@ -1,18 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import 'semantic-ui-css/semantic.min.css';
+
 
 import {Provider} from 'react-redux';
 import store from './store'
+import {history} from './store'
 
-import LoginPage from './containers/LoginPage'
-import WangEditor from './components/WangEditor'
+import { Route } from 'react-router'
+import { ConnectedRouter} from 'react-router-redux'
+
+import MainContainer from './containers/MainContainer'
+
+
+import FixedMenuLayout from './containers/FixedMenuLayout'
 
 ReactDOM.render(
     <Provider store={store}>
-        <WangEditor/>
-    </Provider>, document.getElementById('app')
+        <ConnectedRouter history={history}>
+            <MainContainer/>
+        </ConnectedRouter>
+    </Provider>
+
+, document.getElementById('app')
 );
+
 
 
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import LoginForm from '../components/LoginForm';
+
+import LoginForm from '../components/LoginRegisterModal';
+import {Container} from 'semantic-ui-react'
 
 class LoginPage extends React.Component{
 
@@ -8,10 +10,9 @@ class LoginPage extends React.Component{
     render(){
 
         return(
-            <LoginForm
-                user={this.props.user}
-                onClickLogin={this.props.onClickLogin}
-            />
+            <Container>
+                just a child page test
+            </Container>
         );
 
     }

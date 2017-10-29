@@ -1,8 +1,7 @@
-dist
-node_modules
+
 .DS_Store
 /.idea
 *.log
 *.iml
-*.log
-npm-debug.*
+/node_modules/
+/dist/

@@ -8,14 +8,16 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        //publicPath: path.resolve(__dirname, 'dist'),
     },
 
     devtool: 'eval-source-map',
 
     devServer: {
         contentBase: './dist',
-        hot: true
+        hot: true,
+        historyApiFallback: true,
     },
 
     module:{

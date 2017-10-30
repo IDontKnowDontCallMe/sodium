@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Container, Segment,Dropdown, Image, Menu, Grid, List, Header, Input} from 'semantic-ui-react'
+import {withRouter} from 'react-router-dom'
 
 import SimpleAlbumItem from '../components/SimpleAlbumItem';
 
@@ -23,7 +24,7 @@ class PhotoAreaContainer extends React.Component{
 
         for(let i=1; i<=pageNum; i++){
             result.push(
-                <Menu.Item name={i} key={i} as='a' active={activedPage===i}/>
+                <Menu.Item name={String(i)} key={i} as='a' active={activedPage===i}/>
             );
         }
 
@@ -35,7 +36,7 @@ class PhotoAreaContainer extends React.Component{
 
         return itemList.map((value, index, array)=>{
             return (
-                <Grid.Column>
+                <Grid.Column key={index}>
                     <SimpleAlbumItem
                         albumUrl={value.url}
                         coverUrl={value.coverUrl}
@@ -61,7 +62,7 @@ class PhotoAreaContainer extends React.Component{
                 <Menu secondary>
                     {this.getMenuItems(menuItem1, photoAreaInfo.activedTheme)}
                     <Menu.Menu position='right'>
-                        <Menu.Item>
+                        <Menu.Item key='menuInput'>
                             <Input icon='search' placeholder='Search...' />
                         </Menu.Item>
                     </Menu.Menu>

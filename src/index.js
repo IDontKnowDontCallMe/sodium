@@ -8,7 +8,7 @@ import {Provider} from 'react-redux';
 import store from './store'
 import {history} from './store'
 
-import { Route } from 'react-router'
+import { Route } from 'react-router-dom'
 import { ConnectedRouter} from 'react-router-redux'
 
 import MainContainer from './containers/MainContainer'

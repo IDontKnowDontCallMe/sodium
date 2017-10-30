@@ -1,12 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { Route} from 'react-router'
+import { Route, Switch, withRouter} from 'react-router-dom'
 import {Container, Segment,Dropdown, Image, Menu, Grid, List, Header} from 'semantic-ui-react'
 
 import LoginRegisterModal from '../components/LoginRegisterModal';
 import MainMenu from '../components/MainMenu'
 
-import PhotoAreaContainer from './PhotoAreaContainer'
+import PhotoAreaContainer from './PhotoAreaContainer';
+import AlbumDisplayContainer from './AlbumDisplayContainer';
+import CreateAlbumContainer from './CreateAlbumContainer';
 
 
 class MainContainer extends React.Component{
@@ -27,7 +29,11 @@ class MainContainer extends React.Component{
                 />
 
                 <Container text style={{ marginTop: '5em', minHeight:750}}>
-                    <PhotoAreaContainer/>
+                    <Switch>
+                        <Route path="/" exact  component={AlbumDisplayContainer}/>
+                        <Route path="/sample" exact  component={PhotoAreaContainer}/>
+                        <Route path="/createAlbum" exact  component={CreateAlbumContainer}/>
+                    </Switch>
                 </Container>
 
                 <Segment inverted vertical style={{ padding: '5em 0em', marginTop: '1em', }}>
@@ -89,4 +95,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainContainer));

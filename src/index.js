@@ -14,8 +14,6 @@ import { ConnectedRouter} from 'react-router-redux'
 import MainContainer from './containers/MainContainer'
 
 
-import FixedMenuLayout from './containers/FixedMenuLayout'
-
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>

@@ -3,14 +3,14 @@ const samplePhotoList = [
     {
         url: 'https://react.semantic-ui.com/assets/images/avatar/large/elliot.jpg',
         photoId: 1,
-        height: 300,
-        width: 300,
+        height: 600,
+        width: 600,
     },
     {
         url: 'https://react.semantic-ui.com/assets/images/avatar/large/matthew.png',
         photoId: 2,
-        height: 200,
-        width: 300,
+        height: 600,
+        width: 600,
     },
     {
         url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509373501964&di=a2f0a976c940b2990f0cf2d7e98ed04b&imgtype=0&src=http%3A%2F%2Fp1.v.17173cdn.com%2Fvw0tha%2FYWxqaGBf%2Fuploads%2Fimages%2Fvideo%2F20141029%2F18662900_1.jpg',

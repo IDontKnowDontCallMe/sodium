@@ -1,18 +1,34 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Container, Segment,Dropdown, Image, Menu, Grid, List, Header, Input} from 'semantic-ui-react'
-import {withRouter} from 'react-router-dom'
 
 import SimpleAlbumItem from '../components/SimpleAlbumItem';
 
 class PhotoAreaContainer extends React.Component{
+
+    constructor(){
+        super();
+        this.state = {
+            activedMenuItem: '全部',
+            searchInput: '',
+        }
+    }
+
+    clickMenuItem = (e, {name})=>{
+
+        this.setState({
+            ...this.state,
+            activedMenuItem: name,
+        });
+
+    }
 
 
     getMenuItems = (themeList, activedTheme)=>{
 
         return themeList.map((value, index, array)=>{
             return (
-                <Menu.Item name={value} key={value} as='a' active={activedTheme===value}/>
+                <Menu.Item name={value} key={value} as='a' active={value===this.state.activedMenuItem} onClick={this.clickMenuItem}/>
             );
         })
 
@@ -42,6 +58,7 @@ class PhotoAreaContainer extends React.Component{
                         coverUrl={value.coverUrl}
                         albumName={value.name}
                         starNum={value.starNum}
+                        albumId={value.albumId}
                     />
                 </Grid.Column>
             );
@@ -49,12 +66,26 @@ class PhotoAreaContainer extends React.Component{
 
     }
 
+    searchInputChange = (e, data)=>{
+
+        console.log(e)
+        console.log(data)
+
+    }
+
+    search = (event)=>{
+
+        if(event.keyCode===13){
+            console.log('search')
+        }
+
+    }
 
     render(){
 
         const {photoAreaInfo} = this.props;
 
-        const menuItem1 = ['人像','风景','生态','纪实','生活','LOMO'];
+        const menuItem1 = ['全部','人像','风景','生态','纪实','生活','LOMO'];
         const menuItem2 = ['观念','手机Snap','达物','宠物','美食','性感','其他'];
 
         return(
@@ -63,7 +94,7 @@ class PhotoAreaContainer extends React.Component{
                     {this.getMenuItems(menuItem1, photoAreaInfo.activedTheme)}
                     <Menu.Menu position='right'>
                         <Menu.Item key='menuInput'>
-                            <Input icon='search' placeholder='Search...' />
+                            <Input icon='search' placeholder='Search...' onChange={this.searchInputChange} onKeyUp={this.search}/>
                         </Menu.Item>
                     </Menu.Menu>
                 </Menu>

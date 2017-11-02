@@ -51,7 +51,7 @@ class WangEditor extends Component {
 
     clickHandle() {
         if(this.editorPoint!==null){
-            alert(this.editorPoint.txt.html())
+            console.log(this.editorPoint.txt.html())
         }
     }
 }

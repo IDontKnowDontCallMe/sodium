@@ -1,15 +1,23 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
+import {history} from '../store'
 
 class SimpleAlbumItem extends React.Component{
+
+    clickLink = ()=>{
+
+        const {albumId} = this.props;
+
+        history.push('/album/'+albumId)
+    }
+
 
     render(){
 
         const {albumUrl, coverUrl, albumName, starNum} = this.props;
 
         return (
-            <Card>
-
+            <Card link onClick={this.clickLink}>
                 <Card.Content>
                     <Image src={coverUrl} />
                 </Card.Content>

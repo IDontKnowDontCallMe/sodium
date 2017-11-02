@@ -1,8 +1,8 @@
 const initState = {
 
-    hasLogined: false,
-    userId: -1,
-    userName: null,
+    hasLogined: true,
+    userId: 1,
+    userName: 'Man',
 
     showLoginModal: false
 

@@ -237,7 +237,7 @@ class CreateAlbumContainer extends React.Component{
                         <Gallery uploader={ uploader } />
                     </Form.Field>
 
-                    <Button color='teal' >Submit</Button>
+                    <Button color='teal' >创建</Button>
                 </Form>
 
 

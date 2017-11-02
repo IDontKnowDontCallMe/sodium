@@ -9,6 +9,10 @@ import MainMenu from '../components/MainMenu'
 import PhotoAreaContainer from './PhotoAreaContainer';
 import AlbumDisplayContainer from './AlbumDisplayContainer';
 import CreateAlbumContainer from './CreateAlbumContainer';
+import CreatePostContainer from './CreatePostContainer';
+import PostAreaContainer from './PostAreaContainer';
+import PostDetailContainer from './PostDetailContainer';
+import HomePageContainer from './HomePageContainer'
 
 
 class MainContainer extends React.Component{
@@ -30,9 +34,13 @@ class MainContainer extends React.Component{
 
                 <Container text style={{ marginTop: '5em', minHeight:750}}>
                     <Switch>
-                        <Route path="/" exact  component={AlbumDisplayContainer}/>
-                        <Route path="/sample" exact  component={PhotoAreaContainer}/>
+                        <Route path="/"   exact component={HomePageContainer}/>
+                        <Route path="/photoArea" exact  component={PhotoAreaContainer}/>
                         <Route path="/createAlbum" exact  component={CreateAlbumContainer}/>
+                        <Route path="/createPost" exact  component={CreatePostContainer}/>
+                        <Route path="/postArea" exact  component={PostAreaContainer}/>
+                        <Route path="/post/postId"  component={PostDetailContainer}/>
+                        <Route path="/album/:albumId"  component={AlbumDisplayContainer}/>
                     </Switch>
                 </Container>
 

@@ -5,7 +5,7 @@ import {Container,  Image, Grid, Header, Message,Divider, Comment ,Form, Button 
 import 'react-photoswipe/lib/photoswipe.css'
 import {PhotoSwipe} from 'react-photoswipe';
 
-import {Link, withRouter} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 class AlbumDisplayContainer extends React.Component{
 

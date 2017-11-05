@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Container, Label, List, Menu, Grid, Message, Divider} from 'semantic-ui-react'
+import {Container, Label, List, Menu, Grid, Message, Divider} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 
 class PostAreaContainer extends React.Component{
@@ -12,7 +13,7 @@ class PostAreaContainer extends React.Component{
 
         for(let i=1; i<=pageNum; i++){
             result.push(
-                <Menu.Item name={String(i)} key={i} as='a' active={activedPage===i} onClick={this.clickMenuItem}/>
+                <Menu.Item name={String(i)} key={i} as='a' active={this.props.postAreaInfo.pageIndex===i} onClick={this.clickMenuItem}/>
             );
         }
 
@@ -22,13 +23,17 @@ class PostAreaContainer extends React.Component{
 
     clickMenuItem = (e, {name})=>{
 
-        console.log(name+'page')
+        //console.log(name+'page')
+
+        this.props.changePage(Number(name))
 
     }
 
-    clickLabel = (e, data)=>{
+    clickLabel = (e, {name})=>{
 
-        console.log(data)
+        //console.log(name)
+
+        this.props.changePostOrder(name)
 
     }
 
@@ -42,9 +47,9 @@ class PostAreaContainer extends React.Component{
                 <Grid columns={1}>
                     <Grid.Column>
                         <Label.Group style={{float: 'right'}}>
-                            <Label key='0' as='a' pointing={postAreaInfo.choosedLabel==='postTime'?'below':false} onClick={this.clickLabel}>发帖时间</Label>
-                            <Label key='1' as='a' pointing={postAreaInfo.choosedLabel==='answerTime'?'below':false} onClick={this.clickLabel}>回复时间</Label>
-                            <Label key='2' as='a' pointing={postAreaInfo.choosedLabel==='answerNum'?'below':false} onClick={this.clickLabel}>回复数量</Label>
+                            <Label key='postTime' name='发帖时间' as='a' pointing={postAreaInfo.choosedLabel==='发帖时间'?'below':false} onClick={this.clickLabel}>发帖时间</Label>
+                            <Label key='answerTime' name='回复时间'  as='a' pointing={postAreaInfo.choosedLabel==='回复时间'?'below':false} onClick={this.clickLabel}>回复时间</Label>
+                            <Label key='answerNum' name='回复数量'  as='a' pointing={postAreaInfo.choosedLabel==='回复数量'?'below':false} onClick={this.clickLabel}>回复数量</Label>
                         </Label.Group>
                         <Divider section clearing/>
                     </Grid.Column>
@@ -63,7 +68,7 @@ class PostAreaContainer extends React.Component{
                                         return (
                                             <List.Item key={index}>
                                                 <List.Content>
-                                                    <List.Header as='a'>{value.postName}</List.Header>
+                                                    <List.Header ><Link to={'/post/'+value.postId}>{value.postName}</Link></List.Header>
                                                     <List.Description style={{float: 'right'}}>{value.answerNum + '回复'+'   ' + '发表于'+value.createdAt + ' '}</List.Description>
                                                 </List.Content>
                                             </List.Item>
@@ -99,14 +104,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        showLoginModal: () => {
+        changePostOrder: (order) => {
             dispatch({
-                type: 'SHOW_LOGIN_MODAL',
+                type: 'SEARCH_POST',
+                payload: {order: order},
             });
         },
-        closeLoginModal: () => {
+        changePage: (targetPage)=>{
             dispatch({
-                type: 'CLOSE_LOGIN_MODAL',
+                type: 'CHANGE_POST_PAGE',
+                payload: {targetPage: targetPage}
             });
         }
     };

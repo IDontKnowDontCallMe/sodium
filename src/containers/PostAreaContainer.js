@@ -12,7 +12,7 @@ class PostAreaContainer extends React.Component{
 
         for(let i=1; i<=pageNum; i++){
             result.push(
-                <Menu.Item name={String(i)} key={i} as='a' active={activedPage===i}/>
+                <Menu.Item name={String(i)} key={i} as='a' active={activedPage===i} onClick={this.clickMenuItem}/>
             );
         }
 
@@ -20,7 +20,17 @@ class PostAreaContainer extends React.Component{
 
     }
 
+    clickMenuItem = (e, {name})=>{
 
+        console.log(name+'page')
+
+    }
+
+    clickLabel = (e, data)=>{
+
+        console.log(data)
+
+    }
 
 
     render(){
@@ -32,9 +42,9 @@ class PostAreaContainer extends React.Component{
                 <Grid columns={1}>
                     <Grid.Column>
                         <Label.Group style={{float: 'right'}}>
-                            <Label key='0' as='a' pointing={postAreaInfo.choosedLabel==='postTime'?'below':false}>发帖时间</Label>
-                            <Label key='1' as='a' pointing={postAreaInfo.choosedLabel==='answerTime'?'below':false}>回复时间</Label>
-                            <Label key='2' as='a' pointing={postAreaInfo.choosedLabel==='answerNum'?'below':false}>回复数量</Label>
+                            <Label key='0' as='a' pointing={postAreaInfo.choosedLabel==='postTime'?'below':false} onClick={this.clickLabel}>发帖时间</Label>
+                            <Label key='1' as='a' pointing={postAreaInfo.choosedLabel==='answerTime'?'below':false} onClick={this.clickLabel}>回复时间</Label>
+                            <Label key='2' as='a' pointing={postAreaInfo.choosedLabel==='answerNum'?'below':false} onClick={this.clickLabel}>回复数量</Label>
                         </Label.Group>
                         <Divider section clearing/>
                     </Grid.Column>

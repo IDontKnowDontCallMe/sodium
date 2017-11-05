@@ -3,6 +3,7 @@ const initState = {
     hasLogined: true,
     userId: 1,
     userName: 'Man',
+    userAvatar: 'https://react.semantic-ui.com/assets/images/avatar/large/elliot.jpg',
 
     showLoginModal: false
 

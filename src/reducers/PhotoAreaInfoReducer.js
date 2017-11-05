@@ -82,7 +82,56 @@ const pageOneList = [
         name: 'first',
         starNum: 233,
         albumId:1,
-    }
+    },
+    {
+        url: '',
+        coverUrl: 'https://react.semantic-ui.com/assets/images/wireframe/image.png',
+        name: 'first',
+        starNum: 233,
+        albumId:1,
+    },
+    {
+        url: '',
+        coverUrl: 'https://react.semantic-ui.com/assets/images/wireframe/image.png',
+        name: 'first',
+        starNum: 233,
+        albumId:1,
+    },
+    {
+        url: '',
+        coverUrl: 'https://react.semantic-ui.com/assets/images/wireframe/image.png',
+        name: 'first',
+        starNum: 233,
+        albumId:1,
+    },
+    {
+        url: '',
+        coverUrl: 'https://react.semantic-ui.com/assets/images/avatar/large/elliot.jpg',
+        name: 'first',
+        starNum: 233,
+        albumId:1,
+    },
+    {
+        url: '',
+        coverUrl: 'https://react.semantic-ui.com/assets/images/avatar/large/matthew.png',
+        name: 'first',
+        starNum: 233,
+        albumId:1,
+    },
+    {
+        url: '',
+        coverUrl: 'https://react.semantic-ui.com/assets/images/avatar/large/elliot.jpg',
+        name: 'first',
+        starNum: 233,
+        albumId:1,
+    },
+    {
+        url: '',
+        coverUrl: 'https://react.semantic-ui.com/assets/images/avatar/large/matthew.png',
+        name: 'first',
+        starNum: 233,
+        albumId:1,
+    },
 ];
 
 const pageTwoList = [
@@ -126,10 +175,11 @@ const pageTwoList = [
 
 const initState = {
 
-    activedTheme: '人像',
+    activedTheme: '全部',
     activedPage: 1,
-    pageNum: 3,
-    photoItemList: pageOneList,
+    pageNum: 2,
+    photoItemList: pageOneList.slice(0,12),
+    allItemList: pageOneList,
 
 };
 
@@ -138,10 +188,35 @@ const initState = {
 export default function PhotoAreaInfoReducer(state = initState, action) {
     switch (action.type) {
 
-        // case 'LOGIN_ERROR':
-        //     return {
-        //         ...state,
-        //     };
+        case 'CHANGE_ALL_PHOTO_LIST':
+            const {payload} = action;
+
+            let num = payload.photoList.length;
+            let rest = num%12;
+            num = num/12;
+            if(rest>0){
+                num++;
+            }
+
+            return {
+                ...state,
+                activedPage: 1,
+                pageNum: num,
+                photoItemList: payload.photoList.slice(0,12),
+                allItemList: payload.photoList,
+            };
+
+
+        case 'CHANGE_PHOTO_PAGE':
+            const {targetPage} = action.payload;
+
+            return {
+                ...state,
+                activedPage: targetPage,
+                photoItemList: state.allItemList.slice((targetPage-1)*12,(targetPage-1)*12+12),
+            };
+
+
         default:
             return state;
     }

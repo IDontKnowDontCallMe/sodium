@@ -10,16 +10,21 @@ class PhotoAreaContainer extends React.Component{
         super();
         this.state = {
             activedMenuItem: '全部',
+            activedPageItem: '1',
             searchInput: '',
         }
     }
 
     clickMenuItem = (e, {name})=>{
 
+        //console.log(name);
+
         this.setState({
             ...this.state,
             activedMenuItem: name,
         });
+
+        this.props.getPhotosOfTheme(name);
 
     }
 
@@ -28,10 +33,21 @@ class PhotoAreaContainer extends React.Component{
 
         return themeList.map((value, index, array)=>{
             return (
-                <Menu.Item name={value} key={value} as='a' active={value===this.state.activedMenuItem} onClick={this.clickMenuItem}/>
+                <Menu.Item name={value} key={value}  active={value===this.state.activedMenuItem} onClick={this.clickMenuItem}/>
             );
         })
 
+    }
+
+    clickPageItem = (e, {name})=>{
+        //console.log(name+'page');
+
+        this.setState({
+            ...this.state,
+            activedPageItem: name,
+        });
+
+        this.props.changePage(Number(name));
     }
 
     getPageMenu = (pageNum, activedPage)=>{
@@ -40,7 +56,7 @@ class PhotoAreaContainer extends React.Component{
 
         for(let i=1; i<=pageNum; i++){
             result.push(
-                <Menu.Item name={String(i)} key={i} as='a' active={activedPage===i}/>
+                <Menu.Item name={String(i)} key={i} as='a' active={i===this.props.photoAreaInfo.activedPage} onClick={this.clickPageItem}/>
             );
         }
 
@@ -66,17 +82,19 @@ class PhotoAreaContainer extends React.Component{
 
     }
 
-    searchInputChange = (e, data)=>{
-
-        console.log(e)
-        console.log(data)
+    searchInputChange = (e, {value})=>{
+        this.setState({
+            ...this.state,
+            searchInput: value,
+        });
 
     }
 
     search = (event)=>{
 
         if(event.keyCode===13){
-            console.log('search')
+            console.log('search');
+            this.props.searchPhotos(this.state.searchInput);
         }
 
     }
@@ -134,16 +152,25 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        showLoginModal: () => {
+        searchPhotos:(keyword)=>{
             dispatch({
-                type: 'SHOW_LOGIN_MODAL',
+                type: 'SEARCH_PHOTO',
+                payload: {keyword: keyword}
             });
         },
-        closeLoginModal: () => {
+        getPhotosOfTheme: (theme)=>{
             dispatch({
-                type: 'CLOSE_LOGIN_MODAL',
+                type: 'GET_PHOTOS_OF_THEME',
+                payload: {theme: theme}
             });
-        }
+        },
+        changePage: (targetPage)=>{
+            dispatch({
+                type: 'CHANGE_PHOTO_PAGE',
+                payload: {targetPage: targetPage},
+            });
+        },
+
     };
 }
 

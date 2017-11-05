@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Container, Label, List, Menu, Grid, Message, Divider, Header} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
 
 class HomePageContainer extends React.Component{
@@ -15,6 +16,10 @@ class HomePageContainer extends React.Component{
         return(
             <Container>
                 <Header textAlign='center'>this is a temp home page!</Header>
+                <Link to='/post/1'>post</Link>
+                <p/>
+                <Link to='/createPost'>create post</Link>
+                <div>233</div>
             </Container>
         );
 

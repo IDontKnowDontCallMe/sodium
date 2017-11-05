@@ -4,7 +4,9 @@ import MainInfoReducer from './MainInfoReducer';
 import PhotoAreaInfoReducer from './PhotoAreaInfoReducer';
 import AlbumDisplayInfoReducer from './AlbumDisplayInfoReducer';
 import PostAreaInfoReducer from './PostAreaInfoReducer';
-import PostDetailInfo from './PostDetailInfoReducer';
+import PostDetailInfoReducer from './PostDetailInfoReducer';
+import PeopleInfoReducer from './PeopleInfoReducer';
+import UserInfoReducer from './UserInfoReducer';
 
 import {routerReducer} from 'react-router-redux';
 
@@ -15,7 +17,9 @@ export default combineReducers({
     photoAreaInfo: PhotoAreaInfoReducer,
     albumDisplayInfo: AlbumDisplayInfoReducer,
     postAreaInfo: PostAreaInfoReducer,
-    postDetailInfo: PostDetailInfo,
+    postDetailInfo: PostDetailInfoReducer,
+    peopleInfo: PeopleInfoReducer,
+    userInfo: UserInfoReducer,
     user: UserReducer,
     router: routerReducer,
 

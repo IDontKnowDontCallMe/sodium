@@ -1,13 +1,19 @@
 import {takeEvery, takeLatest} from 'redux-saga/effects';
-import {login} from './UserSage';
+import PhotoAreaInfoSaga from './PhotoAreaInfoSaga';
 
 
 export default function* rootSaga () {
 
+    let sagas = [];
+
+    sagas.push(PhotoAreaInfoSaga);
+
     yield [
 
-        takeLatest('LOGIN', login)
+        sagas
 
     ];
+
+
 
 }

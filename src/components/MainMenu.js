@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Menu,Segment, Dropdown } from 'semantic-ui-react';
+import { Button, Container, Menu,Segment, Dropdown, Image } from 'semantic-ui-react';
 import {Link} from 'react-router-dom'
 import {history} from '../store'
 
@@ -52,6 +52,9 @@ class MainMenu extends React.Component{
     clickDropDownItem = (e, {children})=>{
         switch (children){
             case '发相册':
+                history.push('/peopleInfo');
+                break;
+            case '发相册':
                 history.push('/createAlbum');
                 break;
             case '发帖子':
@@ -65,9 +68,11 @@ class MainMenu extends React.Component{
 
     render(){
 
-        const {hasLogined, userName, showLoginModal} = this.props;
+        const {hasLogined, userName, showLoginModal, avatarUrl} = this.props;
 
-
+        const trigger = (
+            <span>{'你好! '+userName}<span>     </span><Image avatar src={avatarUrl}/></span>
+        );
 
         return (
 
@@ -81,14 +86,14 @@ class MainMenu extends React.Component{
                         {
                             hasLogined?
                                 <Menu.Menu position='right'>
-                                    <Dropdown item text={'你好! '+userName}>
+                                    <Dropdown item  trigger={trigger}>
                                         <Dropdown.Menu>
+                                            <Dropdown.Item onClick={this.clickDropDownItem}>个人中心</Dropdown.Item>
                                             <Dropdown.Item onClick={this.clickDropDownItem}>发相册</Dropdown.Item>
                                             <Dropdown.Item onClick={this.clickDropDownItem}>发帖子</Dropdown.Item>
                                             <Dropdown.Item onClick={this.clickDropDownItem}>发活动</Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
-
                                     <Menu.Item>
                                         <Button as='a' color='teal' style={{ marginLeft: '0.5em' }}>退出</Button>
                                     </Menu.Item>

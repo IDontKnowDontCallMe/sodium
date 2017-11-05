@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 //tree shaking plugin
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+//const  HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 
 module.exports = {
@@ -15,7 +17,7 @@ module.exports = {
     devtool: 'eval-source-map',
 
     devServer: {
-        contentBase: './dist',
+        contentBase: path.resolve(__dirname, 'dist'),
         hot: true,
         historyApiFallback: true,
     },
@@ -44,7 +46,9 @@ module.exports = {
 
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new UglifyJSPlugin()
+        new UglifyJSPlugin(),
+        //new HtmlWebpackPlugin(),
+        //new HtmlWebpackHarddiskPlugin(),
     ]
 
 }

@@ -12,7 +12,9 @@ import CreateAlbumContainer from './CreateAlbumContainer';
 import CreatePostContainer from './CreatePostContainer';
 import PostAreaContainer from './PostAreaContainer';
 import PostDetailContainer from './PostDetailContainer';
-import HomePageContainer from './HomePageContainer'
+import HomePageContainer from './HomePageContainer';
+import PeopleInfoContainer from './PeopleInfoContainer';
+import UserContainer from './UserContainer';
 
 
 class MainContainer extends React.Component{
@@ -30,17 +32,20 @@ class MainContainer extends React.Component{
                     hasLogined={this.props.mainInfo.hasLogined}
                     userName={this.props.mainInfo.userName}
                     showLoginModal={this.props.showLoginModal}
+                    avatarUrl={this.props.mainInfo.userAvatar}
                 />
 
                 <Container text style={{ marginTop: '5em', minHeight:750}}>
                     <Switch>
+                        <Route path="/user/user"  component={UserContainer}/>
+                        <Route path="/post/:id"  component={PostDetailContainer}/>
+                        <Route path="/album/:albumId"  component={AlbumDisplayContainer}/>
                         <Route path="/"   exact component={HomePageContainer}/>
                         <Route path="/photoArea" exact  component={PhotoAreaContainer}/>
                         <Route path="/createAlbum" exact  component={CreateAlbumContainer}/>
                         <Route path="/createPost" exact  component={CreatePostContainer}/>
                         <Route path="/postArea" exact  component={PostAreaContainer}/>
-                        <Route path="/post/postId"  component={PostDetailContainer}/>
-                        <Route path="/album/:albumId"  component={AlbumDisplayContainer}/>
+                        <Route path="/peopleInfo" exact  component={PeopleInfoContainer}/>
                     </Switch>
                 </Container>
 

@@ -37,7 +37,7 @@ class MainContainer extends React.Component{
 
                 <Container text style={{ marginTop: '5em', minHeight:750}}>
                     <Switch>
-                        <Route path="/user/user"  component={UserContainer}/>
+                        <Route path="/user/:userId"  component={UserContainer}/>
                         <Route path="/post/:id"  component={PostDetailContainer}/>
                         <Route path="/album/:albumId"  component={AlbumDisplayContainer}/>
                         <Route path="/"   exact component={HomePageContainer}/>

@@ -69,7 +69,7 @@ const initState = {
     authorName: 'Jack',
 
     starNum: 25,
-    hasStaredIt: false,
+    hasStaredIt: true,
 
     photoList: samplePhotoList,
     commentList: sampleComments,
@@ -80,6 +80,19 @@ const initState = {
 
 export default function AlbumDisplayInfoReducer(state = initState, action) {
     switch (action.type) {
+
+        case 'CHANGE_HAS_STAR_IT':
+            return {
+                ...state,
+                hasStaredIt: !state.hasStaredIt,
+            };
+
+        case 'CHANGE_COMMENTS':
+            const {commentList} = action.payload;
+            return {
+                ...state,
+                commentList: commentList
+            }
 
         default:
             return state;

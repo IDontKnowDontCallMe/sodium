@@ -59,7 +59,7 @@ class PostDetailContainer extends React.Component{
 
                     <Form reply>
                         <Form.TextArea />
-                        <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+                        <Button content='回复' labelPosition='left' icon='edit' color='teal' />
                     </Form>
                 </Comment.Group>
 

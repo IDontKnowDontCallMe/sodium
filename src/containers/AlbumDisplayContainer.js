@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Container,  Image, Grid, Header, Message,Divider, Comment ,Form, Button ,Icon} from 'semantic-ui-react';
+import {Container,  Image, Grid, Header, Message,Divider, Comment ,Form, Button ,Icon, Loader} from 'semantic-ui-react';
 
 import 'react-photoswipe/lib/photoswipe.css'
 import {PhotoSwipe} from 'react-photoswipe';
@@ -19,7 +19,7 @@ class AlbumDisplayContainer extends React.Component{
                     {id:'download', label:'Download image', url:'{{raw_image_url}}', download:true}
                 ],
             },
-
+            commentInput:'',
         }
     }
 
@@ -115,7 +115,29 @@ class AlbumDisplayContainer extends React.Component{
     }
 
 
+    onCommentInputChange = (e, {value})=>{
 
+        //console.log(value)
+        this.setState({
+            ...this.state,
+            commentInput:value,
+        });
+
+    }
+
+    onAddComment = ()=>{
+
+        this.props.addAlbumComment(this.props.mainInfo.userId, this.props.albumDisplayInfo.albumId, this.state.commentInput);
+
+    }
+
+    onClickAddStar = ()=>{
+        this.props.addStar(this.props.mainInfo.userId, this.props.albumDisplayInfo.albumId)
+    }
+
+    onClickCancelStar = ()=>{
+        this.props.cancelStar(this.props.mainInfo.userId, this.props.albumDisplayInfo.albumId)
+    }
 
     render(){
 
@@ -124,6 +146,12 @@ class AlbumDisplayContainer extends React.Component{
             <Container>
                 <Header textAlign='center'>
                     {this.props.albumDisplayInfo.albumName}
+
+                    <Header.Subheader >
+                        <p/>
+                        <span>作者: </span><Link to={'/user/'+this.props.albumDisplayInfo.authorId}>{this.props.albumDisplayInfo.authorName}</Link>
+                        <p/>
+                    </Header.Subheader>
                 </Header>
                 <i align='center'>{this.props.albumDisplayInfo.albumDescription}</i>
 
@@ -133,6 +161,14 @@ class AlbumDisplayContainer extends React.Component{
                     {this.getPhotoItems(this.props.albumDisplayInfo.photoList)}
                     <Grid.Column key='starIcon' textAlign='center'>
                         <Icon name='star' color="yellow" size='large' /><span>{this.props.albumDisplayInfo.starNum}</span>
+                        <p/>
+                        {
+                            this.props.albumDisplayInfo.hasStaredIt?
+                                <Button onClick={this.onClickCancelStar}>取消赞</Button>
+                                :
+                                <Button color='teal' onClick={this.onClickAddStar}>添加赞</Button>
+                        }
+
                     </Grid.Column>
                 </Grid>
 
@@ -146,8 +182,8 @@ class AlbumDisplayContainer extends React.Component{
                     {this.getComments(this.props.albumDisplayInfo.commentList)}
 
                     <Form reply>
-                        <Form.TextArea />
-                        <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+                        <Form.TextArea onChange={this.onCommentInputChange}/>
+                        <Button content='评论' labelPosition='left' icon='edit' color='teal' onClick={this.onAddComment}/>
                     </Form>
                 </Comment.Group>
 
@@ -176,16 +212,25 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        showLoginModal: () => {
+        addStar: (userId, albumId)=>{
             dispatch({
-                type: 'SHOW_LOGIN_MODAL',
+                type: 'ADD_ALBUM_STAR',
+                payload: {userId: userId, albumId:albumId}
+            });
+
+        },
+        cancelStar:(userId, albumId)=>{
+            dispatch({
+                type: 'CANCEL_ALBUM_STAR',
+                payload: {userId: userId, albumId:albumId}
             });
         },
-        closeLoginModal: () => {
+        addAlbumComment: (userId, albumId, content)=>{
             dispatch({
-                type: 'CLOSE_LOGIN_MODAL',
+                type: 'ADD_ALBUM_COMMENT',
+                payload: {userId: userId, albumId:albumId, content:content}
             });
-        }
+        },
     };
 }
 

@@ -10,3 +10,12 @@ export async function loginApi(param) {
     }
 
 }
+
+export async function cancelFollowingApi(param) {
+    console.log('api:cancelFollowingApi')
+    console.log(param)
+
+
+    return true;
+
+}

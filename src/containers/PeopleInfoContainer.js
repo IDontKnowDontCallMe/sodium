@@ -7,6 +7,14 @@ import {Redirect, Link } from 'react-router-dom'
 
 class PeopleInfoContainer extends React.Component{
 
+    cancelFollowing = (followingId)=>{
+
+        return ()=>{
+            this.props.cancelFollowing(this.props.mainInfo.userId, followingId);
+        }
+
+    }
+
 
     getNotificationFeed = ()=> {
 
@@ -25,7 +33,7 @@ class PeopleInfoContainer extends React.Component{
                             <Feed.Label image={value.makerAvatar} />
                             <Feed.Content>
                                 <Feed.Summary>
-                                    <a>{value.makerName}</a> 发表了相册 <a>{value.itemName}</a>
+                                    <Link to={'/user/'+value.makerId}>{value.makerName}</Link> 发表了相册 <Link to={'/album/'+value.itemId}>{value.itemName}</Link>
                                 </Feed.Summary>
                                 <Feed.Date>
                                     {value.createdAt}
@@ -41,7 +49,7 @@ class PeopleInfoContainer extends React.Component{
                             <Feed.Label image={value.makerAvatar} />
                             <Feed.Content>
                                 <Feed.Summary>
-                                    <a>{value.makerName}</a> 发表了帖子 <a>{value.itemName}</a>
+                                    <Link to={'/user/'+value.makerId}>{value.makerName}</Link> 发表了帖子 <Link to={'/post/'+value.itemId}>{value.itemName}</Link>
                                 </Feed.Summary>
                                 <Feed.Date>
                                     {value.createdAt}
@@ -57,7 +65,7 @@ class PeopleInfoContainer extends React.Component{
                             <Feed.Label image={value.makerAvatar} />
                             <Feed.Content>
                                 <Feed.Summary>
-                                    你的相册 <a>{value.itemName}</a> 被<a>{value.makerName}</a>评论了
+                                    你的相册 <Link to={'/album/'+value.itemId}>{value.itemName}</Link> 被<Link to={'/user/'+value.makerId}>{value.makerName}</Link>评论了
                                 </Feed.Summary>
                                 <Feed.Date>
                                     {value.createdAt}
@@ -73,7 +81,7 @@ class PeopleInfoContainer extends React.Component{
                             <Feed.Label image={value.makerAvatar} />
                             <Feed.Content>
                                 <Feed.Summary>
-                                    你的帖子 <a>{value.itemName}</a> 被<a>{value.makerName}</a>评论了
+                                    你的帖子 <Link to={'/post/'+value.itemId}>{value.itemName}</Link> 被<Link to={'/user/'+value.makerId}>{value.makerName}</Link>评论了
                                 </Feed.Summary>
                                 <Feed.Date>
                                     {value.createdAt}
@@ -89,7 +97,7 @@ class PeopleInfoContainer extends React.Component{
                             <Feed.Label image={value.makerAvatar} />
                             <Feed.Content>
                                 <Feed.Summary>
-                                    你在帖子 <a>{value.itemName}</a> 的回复被<a>{value.makerName}</a>评论了
+                                    你在帖子 <Link to={'/post/'+value.itemId}>{value.itemName}</Link> 的回复被<Link to={'/user/'+value.makerId}>{value.makerName}</Link>评论了
                                 </Feed.Summary>
                                 <Feed.Date>
                                     {value.createdAt}
@@ -125,7 +133,7 @@ class PeopleInfoContainer extends React.Component{
                                                         <Item.Content>
                                                             <Item.Header><Link to={'/user/'+value.id}>{value.name}</Link></Item.Header>
                                                             <Item.Extra>
-                                                                <Button color="teal" floated='right'>
+                                                                <Button color="teal" floated='right' onClick={this.cancelFollowing(value.id)}>
                                                                     取消关注
                                                                     <Icon name='delete' />
                                                                 </Button>
@@ -180,18 +188,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        showLoginModal: () => {
+        cancelFollowing: (folllowerId, followingId)=>{
             dispatch({
-                type: 'SHOW_LOGIN_MODAL',
+                type: 'CANCEL_FOLLOWING',
+                payload: {folllowerId: folllowerId, followingId:followingId},
             });
-        },
-        closeLoginModal: () => {
-            dispatch({
-                type: 'CLOSE_LOGIN_MODAL',
-            });
-        },
-        cancelFollowing: ()=>{
-            
         }
     };
 }

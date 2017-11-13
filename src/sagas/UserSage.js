@@ -1,5 +1,5 @@
-import {call, put} from 'redux-saga/effects';
-import {loginApi } from '../api/UserApi';
+import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
+import {loginApi, cancelFollowingApi } from '../api/UserApi';
 
 export function* login(action) {
 
@@ -14,3 +14,31 @@ export function* login(action) {
 
 
 }
+
+export function* cancelFollowing(action) {
+
+    try{
+
+        const cancelResult = yield call(cancelFollowingApi, action.payload);
+
+        if(cancelResult){
+            yield put({type:'SUB_FOLLOWING_MEMBER', payload:{cancelId: action.payload.followingId}});
+        }
+        else {
+            console.log('cancel following false!')
+        }
+
+    }
+    catch (e){
+        console.log(e)
+    }
+
+}
+
+export default [
+
+    takeLatest('LOGIN', login ),
+    takeLatest('CANCEL_FOLLOWING', cancelFollowing),
+
+
+];

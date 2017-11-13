@@ -97,10 +97,22 @@ const initState = {
 export default function PeopleInfoReducer(state = initState, action) {
     switch (action.type) {
 
-        // case 'LOGIN_ERROR':
-        //     return {
-        //         ...state,
-        //     };
+        case 'SUB_FOLLOWING_MEMBER':
+            const {cancelId} = action.payload;
+            const followingsList = state.followingsList;
+            let shouldDeleteIndex = -1;
+            for(let i=0; i<followingsList.length; i++){
+                if(followingsList[i].id === cancelId){
+                    shouldDeleteIndex = i;
+                    break;
+                }
+            }
+            followingsList.splice(shouldDeleteIndex, 1);
+            return {
+                ...state,
+                followingsList: followingsList,
+            };
+
         default:
             return state;
     }

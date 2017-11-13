@@ -65,10 +65,12 @@ const initState = {
 export default function MainInfoReducer(state = initState, action) {
     switch (action.type) {
 
-        // case 'LOGIN_ERROR':
-        //     return {
-        //         ...state,
-        //     };
+        case 'CHANGE_POST_COMMENT':
+            const {postCommentList} = action.payload;
+            return {
+                postCommentList: postCommentList,
+            };
+
         default:
             return state;
     }

@@ -51,7 +51,7 @@ class MainMenu extends React.Component{
 
     clickDropDownItem = (e, {children})=>{
         switch (children){
-            case '发相册':
+            case '个人中心':
                 history.push('/peopleInfo');
                 break;
             case '发相册':

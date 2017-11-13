@@ -19,7 +19,7 @@ function* addAlbumStar(action) {
 
 function * cancelAlbumStar(action) {
     try{
-        const searchList = yield call(cancelAlbumStarApi, action.payload);
+        const result = yield call(cancelAlbumStarApi, action.payload);
 
         if(result){
             yield put({type:'CHANGE_HAS_STAR_IT'});

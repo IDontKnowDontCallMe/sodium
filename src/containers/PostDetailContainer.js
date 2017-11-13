@@ -1,12 +1,49 @@
 import React from 'react';
 import {} from 'react';
 import {connect} from 'react-redux';
-import {Container, Header, Divider, Comment, Form, Button} from 'semantic-ui-react'
+import {Container, Header, Divider, Comment, Form, Button} from 'semantic-ui-react';
+import {Link} from 'react-router-dom'
 
 import style from './wangEditorStyle.css'
 
 class PostDetailContainer extends React.Component{
 
+    constructor(){
+        super();
+        this.state = {
+
+            commentInput: ''
+
+        }
+    }
+
+    onCommentChange = (e, {value})=>{
+
+        //console.log(value)
+        this.setState({
+            ...this.state,
+            commentInput:value,
+        });
+
+    }
+
+    onAddComment = ()=>{
+
+        if(this.props.mainInfo.hasLogined){
+            this.props.addPostComment(this.props.mainInfo.userId, this.props.postDetailInfo.postId, this.state.commentInput);
+
+            // this.setState({
+            //     ...this.state,
+            //     commentInput:'',
+            // });
+        }
+        else {
+            this.props.showLoginModal();
+        }
+
+
+
+    }
 
 
 
@@ -22,7 +59,7 @@ class PostDetailContainer extends React.Component{
 
                     <Header.Subheader >
                         <p/>
-                        <span>作者: </span><a>{postDetailInfo.authorName}</a>
+                        <span>作者: </span><Link to={'/user/'+this.props.postDetailInfo.authorId}>{this.props.postDetailInfo.authorName}</Link>
                         <p/>
                         <span>{postDetailInfo.createdAt}</span>
                     </Header.Subheader>
@@ -58,8 +95,8 @@ class PostDetailContainer extends React.Component{
                     }
 
                     <Form reply>
-                        <Form.TextArea />
-                        <Button content='回复' labelPosition='left' icon='edit' color='teal' />
+                        <Form.TextArea onChange={this.onCommentChange}/>
+                        <Button content='回复' labelPosition='left' icon='edit' color='teal' onClick={this.onAddComment}/>
                     </Form>
                 </Comment.Group>
 
@@ -85,11 +122,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 type: 'SHOW_LOGIN_MODAL',
             });
         },
-        closeLoginModal: () => {
+
+        addPostComment: (userId, postId, content)=>{
             dispatch({
-                type: 'CLOSE_LOGIN_MODAL',
+                type: 'ADD_POST_COMMENT',
+                payload: {userId: userId, postId:postId, content:content},
             });
         }
+
     };
 }
 

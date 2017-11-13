@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Container, Tab, Feed, Item, Button, Icon} from 'semantic-ui-react';
-import {Redirect } from 'react-router-dom'
+import {Redirect, Link } from 'react-router-dom'
 
 
 
@@ -10,11 +10,11 @@ class PeopleInfoContainer extends React.Component{
 
     getNotificationFeed = ()=> {
 
-        console.log('create feeds')
+        //console.log('create feeds')
 
         return this.props.peopleInfo.notificationList.map((value, index ,array)=>{
 
-            console.log(value.type)
+            //console.log(value.type)
 
             switch (value.type){
                 //关注的人发相册
@@ -123,7 +123,7 @@ class PeopleInfoContainer extends React.Component{
                                                     <Item key={index}>
                                                         <Item.Image size='tiny' src={value.avatar} />
                                                         <Item.Content>
-                                                            <Item.Header>{value.name}</Item.Header>
+                                                            <Item.Header><Link to={'/user/'+value.id}>{value.name}</Link></Item.Header>
                                                             <Item.Extra>
                                                                 <Button color="teal" floated='right'>
                                                                     取消关注
@@ -144,10 +144,10 @@ class PeopleInfoContainer extends React.Component{
                         {
                             this.props.peopleInfo.followingsList.map((value, index, array)=>{
                                 return (
-                                    <Item key={index}>
+                                    <Item key={index} >
                                         <Item.Image size='tiny' src={value.avatar} />
                                         <Item.Content>
-                                            <Item.Header>{value.name}</Item.Header>
+                                            <Item.Header><Link to={'/user/'+value.id}>{value.name}</Link></Item.Header>
                                         </Item.Content>
                                     </Item>
                                 );
@@ -159,7 +159,7 @@ class PeopleInfoContainer extends React.Component{
         ]
 
         return(
-            this.mainInfo.hasLogined?
+            this.props.mainInfo.hasLogined?
                 <Container>
                     <Tab  menu={{ secondary: true, pointing: true, color:'teal' }} panes={panes} />
                 </Container>
@@ -189,6 +189,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch({
                 type: 'CLOSE_LOGIN_MODAL',
             });
+        },
+        cancelFollowing: ()=>{
+            
         }
     };
 }

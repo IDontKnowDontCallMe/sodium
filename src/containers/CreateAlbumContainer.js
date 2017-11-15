@@ -8,23 +8,7 @@ import Gallery from 'react-fine-uploader'
 // ...or load this specific CSS file using a <link> tag in your document
 import 'react-fine-uploader/gallery/gallery.css'
 
-const uploader = new FineUploaderTraditional({
-    options: {
-        chunking: {
-            enabled: true
-        },
-        deleteFile: {
-            enabled: true,
-            endpoint: '/uploads'
-        },
-        request: {
-            endpoint: '/uploads'
-        },
-        retry: {
-            enableAuto: true
-        }
-    }
-})
+
 
 const themeOptions = [
     {
@@ -102,12 +86,82 @@ class CreateAlbumContainer extends React.Component{
         super();
         this.state = {
 
+            head: '',
+            description: '',
+            theme: '',
+
             tags:[],
             tempTag: '',
             showTagInput: false,
         }
 
     }
+
+    uploadedImage = []
+
+    uploader = new FineUploaderTraditional({
+        options: {
+            // chunking: {
+            //     enabled: true
+            // },
+            deleteFile: {
+                enabled: true,
+                endpoint: 'http://localhost:3000/deleteTempFile'
+            },
+            request: {
+                endpoint: 'http://localhost:3000/uploadTempFile'
+            },
+            retry: {
+                enableAuto: false,
+                showButton: true
+            },
+            validation: {
+                allowedExtensions: ['jpeg','png','jpg','gif']
+            },
+            cors: {
+                expected: true,
+                //allowXdr: true,
+                sendCredentials: true
+            },
+
+            callbacks: {
+                onComplete: (id, name, responseJSON, xhr) => {
+                    // console.log(id)
+                    // console.log(name)
+                    // console.log(responseJSON)
+                    //
+                    let image = {
+                        id: id,
+                        name: name,
+                        qquuid: responseJSON.qquuid,
+                        tempFilePath: responseJSON.tempFilePath
+                    }
+
+                    this.uploadedImage.push(image);
+
+                    //console.log(this.uploadedImage)
+                },
+
+
+
+                onDeleteComplete: (id) =>{
+                    let shouldRemoveIndex = -1;
+                    for(let i=0; i<this.uploadedImage.length; i++){
+                        if(this.uploadedImage[i].id === id){
+                            shouldRemoveIndex = i;
+                            break;
+                        }
+                    }
+                    this.uploadedImage.splice(shouldRemoveIndex, 1);
+                }
+
+            }
+        },
+
+
+    })
+
+
 
     clickAddTag = ()=>{
 
@@ -189,6 +243,47 @@ class CreateAlbumContainer extends React.Component{
         })
     }
 
+    onHeadInputChange = (e, {value})=>{
+        //console.log(value)
+        this.setState({
+            ...this.state,
+            head: value,
+        });
+    }
+
+    onDescriptionChange = (e, {value})=>{
+        //console.log(value)
+        this.setState({
+            ...this.state,
+            description: value,
+        });
+    }
+
+    onThemeChange = (e, {value})=>{
+        //console.log(value)
+        this.setState({
+            ...this.state,
+            theme: value,
+        });
+    }
+
+    clickCreate = ()=>{
+
+        let param = {
+
+            head : this.state.head,
+            description: this.state.description,
+            theme: this.state.theme,
+
+            tags: this.state.tags,
+            imageFiles: this.uploadedImage,
+
+        }
+
+        console.log(param)
+
+    }
+
     render(){
 
 
@@ -199,7 +294,7 @@ class CreateAlbumContainer extends React.Component{
 
                 <Form>
                     <Form.Field required>
-                        <Form.Input label='标题' />
+                        <Form.Input label='标题' onChange={this.onHeadInputChange}/>
                     </Form.Field>
                     <Container>
                         <Header as='h5'>标签: </Header>
@@ -227,17 +322,20 @@ class CreateAlbumContainer extends React.Component{
                         }
                     </Container>
                     <Form.Field required>
-                        <Form.Select label='主题'  placeholder='请选择主题' options={themeOptions}/>
+                        <Form.Select label='主题'  placeholder='请选择主题' options={themeOptions}  onChange={this.onThemeChange}/>
                     </Form.Field>
                     <Form.Field required>
-                        <Form.TextArea label='简介' placeholder='说些东西描述一下吧...'/>
+                        <Form.TextArea label='简介' placeholder='说些东西描述一下吧...'  onChange={this.onDescriptionChange}/>
                     </Form.Field>
 
                     <Form.Field>
-                        <Gallery uploader={ uploader } />
+                        <Gallery
+                            fileInput-children={(<span><Icon name='upload' />选择文件</span>)}
+                            uploader={ this.uploader }
+                        />
                     </Form.Field>
 
-                    <Button color='teal' >创建</Button>
+                    <Button color='teal' onClick={this.clickCreate}>创建</Button>
                 </Form>
 
 

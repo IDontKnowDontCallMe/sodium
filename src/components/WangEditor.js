@@ -11,7 +11,7 @@ class WangEditor extends Component {
             <div>
                 {/* 将生成编辑器 */}
                 <div ref="editorElem" style={{textAlign: 'left'}}></div>
-                <button onClick={this.clickHandle.bind(this)}>获取内容</button>
+                {/*<button onClick={this.getContent.bind(this)}>获取内容</button>*/}
             </div>
         );
     }
@@ -49,10 +49,9 @@ class WangEditor extends Component {
         this.editorPoint = editor
     }
 
-    clickHandle() {
-        if(this.editorPoint!==null){
-            console.log(this.editorPoint.txt.html())
-        }
+    getContent() {
+        return this.editorPoint.txt.html()
+
     }
 }
 

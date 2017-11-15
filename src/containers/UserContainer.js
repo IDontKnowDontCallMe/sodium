@@ -1,107 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Container, Tab, Feed, Item, Button, Icon, List} from 'semantic-ui-react'
+import {Container, Tab, Feed, Item, Button, Icon, List} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 
 
 class UserContainer extends React.Component{
 
-
-    getNotificationFeed = ()=> {
-
-        console.log('create feeds')
-
-        return this.props.peopleInfo.notificationList.map((value, index ,array)=>{
-
-            console.log(value.type)
-
-            switch (value.type){
-                //关注的人发相册
-                case 0:
-                    return (
-                        <Feed.Event key={index}>
-                            <Feed.Label image={value.makerAvatar} />
-                            <Feed.Content>
-                                <Feed.Summary>
-                                    <a>{value.makerName}</a> 发表了相册 <a>{value.itemName}</a>
-                                </Feed.Summary>
-                                <Feed.Date>
-                                    {value.createdAt}
-                                </Feed.Date>
-                            </Feed.Content>
-                        </Feed.Event>
-                    );
-                    break;
-                //关注的人发帖子
-                case 1:
-                    return (
-                        <Feed.Event key={index}>
-                            <Feed.Label image={value.makerAvatar} />
-                            <Feed.Content>
-                                <Feed.Summary>
-                                    <a>{value.makerName}</a> 发表了帖子 <a>{value.itemName}</a>
-                                </Feed.Summary>
-                                <Feed.Date>
-                                    {value.createdAt}
-                                </Feed.Date>
-                            </Feed.Content>
-                        </Feed.Event>
-                    );
-                    break;
-                //相册被评论
-                case 3:
-                    return (
-                        <Feed.Event key={index}>
-                            <Feed.Label image={value.makerAvatar} />
-                            <Feed.Content>
-                                <Feed.Summary>
-                                    你的相册 <a>{value.itemName}</a> 被<a>{value.makerName}</a>评论了
-                                </Feed.Summary>
-                                <Feed.Date>
-                                    {value.createdAt}
-                                </Feed.Date>
-                            </Feed.Content>
-                        </Feed.Event>
-                    );
-                    break;
-                //帖子被评论
-                case 4:
-                    return (
-                        <Feed.Event key={index}>
-                            <Feed.Label image={value.makerAvatar} />
-                            <Feed.Content>
-                                <Feed.Summary>
-                                    你的帖子 <a>{value.itemName}</a> 被<a>{value.makerName}</a>评论了
-                                </Feed.Summary>
-                                <Feed.Date>
-                                    {value.createdAt}
-                                </Feed.Date>
-                            </Feed.Content>
-                        </Feed.Event>
-                    );
-                    break;
-                //帖子回复被回复
-                case 5:
-                    return (
-                        <Feed.Event key={index}>
-                            <Feed.Label image={value.makerAvatar} />
-                            <Feed.Content>
-                                <Feed.Summary>
-                                    你在帖子 <a>{value.itemName}</a> 的回复被<a>{value.makerName}</a>评论了
-                                </Feed.Summary>
-                                <Feed.Date>
-                                    {value.createdAt}
-                                </Feed.Date>
-                            </Feed.Content>
-                        </Feed.Event>
-                    );
-                    break;
-                default:
-                    break;
-            }
-
-        })
-    }
 
 
 
@@ -145,7 +50,7 @@ class UserContainer extends React.Component{
             },
             { menuItem: 'Ta的相册',
                 render: () => <Tab.Pane attached={false}>
-                    <Item.Group divided link>
+                    <Item.Group divided >
                         {
                             userInfo.albumList.map((value, index, array)=>{
                                 return (
@@ -153,7 +58,7 @@ class UserContainer extends React.Component{
                                         <Item.Image size='tiny' src={value.coverUrl} />
 
                                         <Item.Content>
-                                            <Item.Header>{value.name}</Item.Header>
+                                            <Item.Header><Link to={'/album/'+value.albumId}>{value.name}</Link></Item.Header>
                                             <Item.Description>
                                                 <Icon name='star' color="yellow" />
                                                 <span>{value.starNum}</span>
@@ -182,7 +87,7 @@ class UserContainer extends React.Component{
                                     return (
                                         <List.Item key={index}>
                                             <List.Content>
-                                                <List.Header as='a'>{value.postName}</List.Header>
+                                                <List.Header ><Link to={'/post/'+value.postId}>{value.postName}</Link></List.Header>
                                                 <List.Description style={{float: 'right'}}>{value.answerNum + '回复'+'   ' + '发表于'+value.createdAt + ' '}</List.Description>
                                             </List.Content>
                                         </List.Item>

@@ -8,6 +8,12 @@ class LoginRegisterModal extends React.Component{
         this.state = {
             modalHeader: '登录',
             showLogin:true,
+
+            loginUsernameInput: '',
+            loginPasswordInput: '',
+            registerUsernameInput: '',
+            registerPasswordInput: ''
+
         }
     }
 
@@ -22,6 +28,17 @@ class LoginRegisterModal extends React.Component{
 
     }
 
+    login = ()=>{
+
+        let param = {
+            userName: this.state.loginUsernameInput,
+            password: this.state.loginPasswordInput
+        }
+
+        this.props.onClickLogin(param)
+
+    }
+
     loginForm =  ()=>{
         return (
             <Container>
@@ -32,16 +49,32 @@ class LoginRegisterModal extends React.Component{
                             icon='user'
                             iconPosition='left'
                             placeholder='用户名'
+                            onChange={
+                                (e, {value} )=>{
+                                    this.setState({
+                                        ...this.state,
+                                        loginUsernameInput: value
+                                    })
+                                }
+                            }
                         />
                         <Form.Input
                             fluid
                             icon='lock'
                             iconPosition='left'
                             placeholder='Password'
-                            type='密码'
+                            type='password'
+                            onChange={
+                                (e, {value} )=>{
+                                    this.setState({
+                                        ...this.state,
+                                        loginPasswordInput: value
+                                    })
+                                }
+                            }
                         />
 
-                        <Button color='teal' fluid size='large'>登录</Button>
+                        <Button color='teal' fluid size='large' onClick={this.login}>登录</Button>
                     </Segment>
                 </Form>
                 <Message>
@@ -49,6 +82,15 @@ class LoginRegisterModal extends React.Component{
                 </Message>
             </Container>
         );
+    }
+
+    register = ()=>{
+        let param = {
+            userName: this.state.registerUsernameInput,
+            password: this.state.registerPasswordInput
+        }
+
+        this.props.onClickRegister(param)
     }
 
     registerForm = ()=>{
@@ -62,24 +104,41 @@ class LoginRegisterModal extends React.Component{
                             icon='user'
                             iconPosition='left'
                             placeholder='用户名'
+                            onChange={
+                                (e, {value} )=>{
+                                    this.setState({
+                                        ...this.state,
+                                        registerUsernameInput: value
+                                    })
+                                }
+                            }
                         />
                         <Form.Input
                             fluid
                             icon='lock'
                             iconPosition='left'
                             placeholder='Password'
-                            type='密码'
+                            type='password'
+                            onChange={
+                                (e, {value} )=>{
+                                    this.setState({
+                                        ...this.state,
+                                        registerPasswordInput: value
+                                    })
+                                }
+                            }
                         />
                         <Form.Input
                             fluid
                             icon='lock'
                             iconPosition='left'
                             placeholder='Password'
-                            type='确认密码'
+                            type='password'
                         />
-                        <Button color='teal' fluid size='large'>注册</Button>
+                        <Button color='teal' fluid size='large' onClick={this.register}>注册</Button>
                     </Segment>
                 </Form>
+
                 <Message>
                     已有账号? <a href="javascript:void(0)" onClick={this.changeFormType}>去登录</a>
                 </Message>

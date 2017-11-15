@@ -170,3 +170,15 @@ export function searchPostApi(param) {
     ]
 
 }
+
+export function createPostApi(param) {
+
+    console.log('api:createPostApi');
+    console.log(param)
+
+    return {
+        success: true,
+        postId: 5,
+    };
+
+}

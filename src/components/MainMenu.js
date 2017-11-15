@@ -66,6 +66,8 @@ class MainMenu extends React.Component{
         }
     }
 
+
+
     render(){
 
         const {hasLogined, userName, showLoginModal, avatarUrl} = this.props;
@@ -95,7 +97,7 @@ class MainMenu extends React.Component{
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     <Menu.Item>
-                                        <Button as='a' color='teal' style={{ marginLeft: '0.5em' }}>退出</Button>
+                                        <Button as='a' color='grey' onClick={this.props.onClickLogout} style={{ marginLeft: '0.5em' }}>退出</Button>
                                     </Menu.Item>
                                 </Menu.Menu>
 

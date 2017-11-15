@@ -19,20 +19,36 @@ import UserContainer from './UserContainer';
 
 class MainContainer extends React.Component{
 
+    constructor(){
+        super();
+
+    }
+
+    hasTryAutoLogin = false
 
     render(){
+
+        if(!this.hasTryAutoLogin){
+            //尝试用cookie自动登录
+            console.log('auto try login')
+            this.props.tryLogin();
+            this.hasTryAutoLogin = true
+        }
 
         return(
             <div>
                 <LoginRegisterModal
                     isOpen={this.props.mainInfo.showLoginModal}
                     onClose={this.props.closeLoginModal}
+                    onClickLogin={this.props.loginUser}
+                    onClickRegister={this.props.registerUser}
                 />
                 <MainMenu
                     hasLogined={this.props.mainInfo.hasLogined}
                     userName={this.props.mainInfo.userName}
                     showLoginModal={this.props.showLoginModal}
                     avatarUrl={this.props.mainInfo.userAvatar}
+                    onClickLogout={()=>{this.props.logoutUser(this.props.mainInfo.userId)}}
                 />
 
                 <Container text style={{ marginTop: '5em', minHeight:750}}>
@@ -104,6 +120,32 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch({
                 type: 'CLOSE_LOGIN_MODAL',
             });
+        },
+
+        loginUser: ({userName, password})=>{
+
+            dispatch({
+                type: 'LOGIN', payload:{userName: userName, password: password}
+            });
+
+        },
+
+        registerUser: ({userName, password})=>{
+            dispatch({
+                type: 'REGISTER', payload:{userName: userName, password: password}
+            });
+        },
+
+        logoutUser: (userId)=>{
+            dispatch({
+                type: 'LOGOUT', payload:{userId: userId}
+            });
+        },
+
+        tryLogin: ()=>{
+            dispatch({
+                type: 'TRY_LOGIN'
+            })
         }
     };
 }

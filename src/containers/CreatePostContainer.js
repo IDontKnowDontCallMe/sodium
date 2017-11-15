@@ -7,8 +7,31 @@ import WangEditor from '../components/WangEditor'
 
 class CreatePostContainer extends React.Component{
 
+    constructor(){
+        super();
+        this.state = {
+            headInput: '',
+        }
+    }
+
+    handleCreate = ()=>{
+
+        let param = {
+            userId: this.props.mainInfo.userId,
+            headName: this.state.headInput,
+            content: this.refs.wangEditor.getContent()
+        };
 
 
+        this.props.createPost(param);
+
+    }
+
+    headInputChange = (e, {value})=>{
+        this.setState({
+            headInput: value,
+        })
+    }
 
 
     render(){
@@ -20,14 +43,14 @@ class CreatePostContainer extends React.Component{
                 <Grid columns={1}>
                     <Grid.Column key='0'>
                         <Form.Field required>
-                            <Form.Input label='标题' fluid />
+                            <Form.Input onChange={this.headInputChange} label='标题' fluid />
                         </Form.Field>
                     </Grid.Column>
                     <Grid.Column>
-                        <WangEditor/>
+                        <WangEditor ref='wangEditor'/>
                     </Grid.Column>
                     <Grid.Column>
-                        <Button color='teal' >创建</Button>
+                        <Button color='teal' onClick={this.handleCreate}>创建</Button>
                     </Grid.Column>
                 </Grid>
             </Container>
@@ -51,10 +74,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 type: 'SHOW_LOGIN_MODAL',
             });
         },
-        closeLoginModal: () => {
+
+        createPost:({userId, headName, content}) =>{
+
             dispatch({
-                type: 'CLOSE_LOGIN_MODAL',
+                type:'CREATE_POST',
+                payload:{userId: userId, headName: headName, content: content},
             });
+
         }
     };
 }

@@ -73,7 +73,7 @@ class MainMenu extends React.Component{
         const {hasLogined, userName, showLoginModal, avatarUrl} = this.props;
 
         const trigger = (
-            <span>{'你好! '+userName}<span>     </span><Image avatar src={avatarUrl}/></span>
+            <span>{userName}<span>     </span><Image avatar src={avatarUrl}/></span>
         );
 
         return (

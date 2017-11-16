@@ -1,70 +1,19 @@
 
 const sampleAlbumList = [
-    {
-        url: '',
-        coverUrl: 'https://react.semantic-ui.com/assets/images/wireframe/image.png',
-        name: '相册1',
-        starNum: 23,
-        albumId:1,
-    },
-    {
-        url: '',
-        coverUrl: 'https://react.semantic-ui.com/assets/images/wireframe/image.png',
-        name: '美丽风光',
-        starNum: 33,
-        albumId:1,
-    },
-    {
-        url: '',
-        coverUrl: 'https://react.semantic-ui.com/assets/images/wireframe/image.png',
-        name: '这是一个相册',
-        starNum: 12,
-        albumId:1,
-    },
-    {
-        url: '',
-        coverUrl: 'https://react.semantic-ui.com/assets/images/avatar/large/elliot.jpg',
-        name: 'first',
-        starNum: 2,
-        albumId:1,
-    },
 ];
 
 const samplePostList = [
 
-    {
-        url: '',
-        postId: 3,
-        postName: '二二二二二二二二二二二',
-        createdAt: '2017-11-11 15:30',
-        updatedAt: '2017-11-15 15:30',
-        answerNum: 25,
-    },
-    {
-        url: '',
-        postId: 4,
-        postName: '四四四四四四四四四四四四四四',
-        createdAt: '2017-11-11 15:30',
-        updatedAt: '2017-11-15 15:30',
-        answerNum: 12,
-    },
-    {
-        url: '',
-        postId: 5,
-        postName: '五五',
-        createdAt: '2017-11-11 15:30',
-        updatedAt: '2017-11-15 15:30',
-        answerNum: 28,
-    },
 
 ];
 
 const initState = {
 
-    userId: 1,
-    userName: 'Jack',
+    userId: -1,
+    userName: 'null',
     userAvatar: 'https://react.semantic-ui.com/assets/images/avatar/large/elliot.jpg',
     hasFollowed: true,
+    userInfoLoading: true,
 
     albumList: sampleAlbumList,
     postList: samplePostList,
@@ -72,12 +21,54 @@ const initState = {
 };
 
 export default function UserInfoReducer(state = initState, action) {
+
+    let {userId, userName, userAvatar , hasFollowed, albumList, postList} = (action.payload===undefined? action: action.payload);
+
     switch (action.type) {
 
-        // case 'LOGIN_ERROR':
-        //     return {
-        //         ...state,
-        //     };
+        case 'CHANGE_USER_INFO':
+            return {
+                ...state,
+                userId: userId,
+                userName: userName,
+                userAvatar: userAvatar,
+                hasFollowed: hasFollowed,
+                albumList: albumList,
+                postList: postList
+            }
+
+        case 'USER_INFO_LOADING_OPEN':
+            return {
+                ...state,
+                userInfoLoading: true,
+            }
+
+        case 'USER_INFO_CLEAR':
+            return {
+                ...state,
+                userId: -1,
+                userName: '',
+                userAvatar: '',
+            }
+
+        case 'USER_INFO_LOADING_CLOSE':
+            return {
+                ...state,
+                userInfoLoading: false,
+            }
+
+        case 'USER_INFO_FOLLOWED_TRUE':
+            return {
+                ...state,
+                hasFollowed: true,
+            }
+
+        case 'USER_INFO_FOLLOWED_FALSE':
+            return {
+                ...state,
+                hasFollowed: false,
+            }
+
         default:
             return state;
     }

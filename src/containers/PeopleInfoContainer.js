@@ -1,16 +1,23 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Container, Tab, Feed, Item, Button, Icon} from 'semantic-ui-react';
-import {Redirect, Link } from 'react-router-dom'
+import {Container, Tab, Feed, Item, Button, Icon, Message} from 'semantic-ui-react';
+import {Redirect, Link } from 'react-router-dom';
+import LoadingDimmer from '../components/LoadingDimmer'
 
 
 
 class PeopleInfoContainer extends React.Component{
 
-    cancelFollowing = (followingId)=>{
+
+    componentDidMount(){
+        this.props.loadPeopleInfo();
+
+    }
+
+    cancelFollowingMethod = (followingId)=>{
 
         return ()=>{
-            this.props.cancelFollowing(this.props.mainInfo.userId, followingId);
+            this.props.cancelFollowing(followingId);
         }
 
     }
@@ -120,48 +127,84 @@ class PeopleInfoContainer extends React.Component{
 
         const panes = [
             { menuItem: '动态',
-                render: () => <Tab.Pane attached={false} style={{minHeight:400}}><Feed>{this.getNotificationFeed()}</Feed></Tab.Pane>
+                render: () => <Tab.Pane attached={false} style={{minHeight:400}}>
+                    {
+                        this.props.peopleInfo.notificationList.length===0?
+                            <Message>
+                                <Message.Header>
+                                    暂无动态
+                                </Message.Header>
+                            </Message>
+                            :
+                        <Feed>
+                            {this.getNotificationFeed()}
+                        </Feed>
+                    }
+                            </Tab.Pane>
             },
             { menuItem: '我关注的人',
                 render: () => <Tab.Pane attached={false} style={{minHeight:400}}>
-                                    <Item.Group divided>
-                                        {
-                                            this.props.peopleInfo.followingsList.map((value, index, array)=>{
-                                                return (
-                                                    <Item key={index}>
-                                                        <Item.Image size='tiny' src={value.avatar} />
-                                                        <Item.Content>
-                                                            <Item.Header><Link to={'/user/'+value.id}>{value.name}</Link></Item.Header>
-                                                            <Item.Extra>
-                                                                <Button color="teal" floated='right' onClick={this.cancelFollowing(value.id)}>
-                                                                    取消关注
-                                                                    <Icon name='delete' />
-                                                                </Button>
-                                                            </Item.Extra>
-                                                        </Item.Content>
-                                                    </Item>
-                                                );
-                                            })
-                                        }
-                                    </Item.Group>
+                    {
+                        this.props.peopleInfo.followingsList.length===0?
+                            <Message>
+                                <Message.Header>
+                                    暂无我关注的人
+                                </Message.Header>
+                            </Message>
+                            :
+                            <Item.Group divided>
+                                {
+                                    this.props.peopleInfo.followingsList.map((value, index, array) => {
+                                        return (
+                                            <Item key={index}>
+                                                <Item.Image size='tiny' src={value.avatar}/>
+                                                <Item.Content>
+                                                    <Item.Header>
+                                                        <Link to={'/user/' + value.id}>
+                                                            {value.name}
+                                                            </Link>
+                                                    </Item.Header>
+                                                    <Item.Extra>
+                                                        <Button color="teal" floated='right'
+                                                                onClick={this.cancelFollowingMethod(value.id)}>
+                                                            取消关注
+                                                            <Icon name='delete'/>
+                                                        </Button>
+                                                    </Item.Extra>
+                                                </Item.Content>
+                                            </Item>
+                                        );
+                                    })
+                                }
+                            </Item.Group>
+                    }
                                 </Tab.Pane>
             },
             { menuItem: '关注我的人',
                 render: () => <Tab.Pane attached={false} style={{minHeight:400}}>
-                    <Item.Group divided>
-                        {
-                            this.props.peopleInfo.followingsList.map((value, index, array)=>{
-                                return (
-                                    <Item key={index} >
-                                        <Item.Image size='tiny' src={value.avatar} />
-                                        <Item.Content>
-                                            <Item.Header><Link to={'/user/'+value.id}>{value.name}</Link></Item.Header>
-                                        </Item.Content>
-                                    </Item>
-                                );
-                            })
-                        }
-                    </Item.Group>
+                    {
+                        this.props.peopleInfo.followersList.length===0?
+                            <Message>
+                                <Message.Header>
+                                    暂无关注我的人
+                                </Message.Header>
+                            </Message>
+                            :
+                        <Item.Group divided>
+                            {
+                                this.props.peopleInfo.followersList.map((value, index, array)=>{
+                                    return (
+                                        <Item key={index} >
+                                            <Item.Image size='tiny' src={value.avatar} />
+                                            <Item.Content>
+                                                <Item.Header><Link to={'/user/'+value.id}>{value.name}</Link></Item.Header>
+                                            </Item.Content>
+                                        </Item>
+                                    );
+                                })
+                            }
+                        </Item.Group>
+                    }
                                 </Tab.Pane>
             },
         ]
@@ -169,7 +212,9 @@ class PeopleInfoContainer extends React.Component{
         return(
             this.props.mainInfo.hasLogined?
                 <Container>
-                    <Tab  menu={{ secondary: true, pointing: true, color:'teal' }} panes={panes} />
+                    <LoadingDimmer active={this.props.peopleInfo.peopleInfoLoading}>
+                        <Tab  menu={{ secondary: true, pointing: true, color:'teal' }} panes={panes} />
+                    </LoadingDimmer>
                 </Container>
                 :
                 <Redirect to='/'/>
@@ -188,12 +233,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        cancelFollowing: (folllowerId, followingId)=>{
+        loadPeopleInfo: ()=>{
+            dispatch({
+                type: 'LOAD_PEOPLE_INFO'
+            });
+        },
+
+        cancelFollowing: (followingId)=>{
             dispatch({
                 type: 'CANCEL_FOLLOWING',
-                payload: {folllowerId: folllowerId, followingId:followingId},
+                payload: {followingId:followingId},
             });
-        }
+        },
+
     };
 }
 

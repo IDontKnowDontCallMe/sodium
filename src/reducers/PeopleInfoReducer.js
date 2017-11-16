@@ -88,6 +88,8 @@ const sampleUser = [
 
 const initState = {
 
+    peopleInfoLoading: false,
+
     notificationList: sampleNoticfications,
     followersList: sampleUser,
     followingsList: sampleUser,
@@ -96,6 +98,14 @@ const initState = {
 
 export default function PeopleInfoReducer(state = initState, action) {
     switch (action.type) {
+
+        case 'CHANGE_PEOPLE_INFO':
+            return {
+                ...state,
+                notificationList: action.payload.notificationList,
+                followersList: action.payload.followersList,
+                followingsList: action.payload.followingsList,
+            }
 
         case 'SUB_FOLLOWING_MEMBER':
             const {cancelId} = action.payload;
@@ -112,6 +122,26 @@ export default function PeopleInfoReducer(state = initState, action) {
                 ...state,
                 followingsList: followingsList,
             };
+
+        case 'PEOPLE_INFO_LOADING_OPEN':
+            return {
+                ...state,
+                peopleInfoLoading: true,
+            }
+
+        case 'PEOPLE_INFO_CLEAR':
+            return {
+                ...state,
+                notificationList: [],
+                followersList: [],
+                followingsList: [],
+            }
+
+        case 'PEOPLE_INFO_LOADING_CLOSE':
+            return {
+                ...state,
+                peopleInfoLoading: false,
+            }
 
         default:
             return state;

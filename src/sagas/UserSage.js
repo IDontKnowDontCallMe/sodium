@@ -1,8 +1,8 @@
 import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
-import {loginApi, registerApi, logoutApi,tryLoginApi, cancelFollowingApi } from '../api/UserApi';
+import {loginApi, registerApi, logoutApi,tryLoginApi,getUserDetailInfoApi,addFollowingApi, cancelFollowingApi, getPeopleInfoApi } from '../api/UserApi';
 import {history} from '../store'
 
-export function* login(action) {
+function* login(action) {
 
     try{
         yield put({type:'LOGIN_BUTTON_LOADING'})
@@ -110,14 +110,73 @@ function* logout(action) {
 
 }
 
-export function* cancelFollowing(action) {
+function* getUserDetail(action) {
 
     try{
 
+        yield put({type: 'USER_INFO_LOADING_OPEN'});
+        yield put({type: 'USER_INFO_CLEAR'});
+
+        let userInfo = yield call(getUserDetailInfoApi, action.payload);
+
+        if(userInfo.userId && userInfo.userId >= 0){
+
+            yield put({type:'CHANGE_USER_INFO', payload: userInfo});
+
+        }
+        else {
+            alert('get user info false')
+        }
+
+
+    }
+    catch (e){
+        console.log(e)
+    }
+
+    yield put({type: 'USER_INFO_LOADING_CLOSE'});
+
+}
+
+function* getPeopleInfo(action){
+
+    try{
+
+        yield put({type: 'PEOPLE_INFO_LOADING_OPEN'});
+        yield put({type: 'PEOPLE_INFO_CLEAR'});
+
+        let peopleInfo = yield call(getPeopleInfoApi);
+
+        if(peopleInfo.success){
+
+            yield put({type: 'CHANGE_PEOPLE_INFO', payload: peopleInfo})
+
+        }
+        else {
+            alert('get people info false')
+        }
+
+    }
+    catch (e){
+        console.log(e)
+    }
+
+    yield put({type: 'PEOPLE_INFO_LOADING_CLOSE'});
+
+}
+
+function* cancelFollowing(action) {
+
+    try{
+
+        yield put({type: 'USER_INFO_LOADING_OPEN'});
+
         const cancelResult = yield call(cancelFollowingApi, action.payload);
 
-        if(cancelResult){
+        if(cancelResult.success){
             yield put({type:'SUB_FOLLOWING_MEMBER', payload:{cancelId: action.payload.followingId}});
+
+            yield put({type: 'USER_INFO_FOLLOWED_FALSE'})
         }
         else {
             console.log('cancel following false!')
@@ -127,6 +186,33 @@ export function* cancelFollowing(action) {
     catch (e){
         console.log(e)
     }
+
+    yield put({type: 'USER_INFO_LOADING_CLOSE'});
+
+}
+
+function* addFollowing(action){
+
+    try{
+
+        yield put({type: 'USER_INFO_LOADING_OPEN'});
+
+        const addResult = yield call(addFollowingApi, action.payload);
+
+        if(addResult.success){
+
+            yield put({type: 'USER_INFO_FOLLOWED_TRUE'})
+        }
+        else {
+            console.log('add following false!')
+        }
+
+    }
+    catch (e){
+        console.log(e)
+    }
+
+    yield put({type: 'USER_INFO_LOADING_CLOSE'});
 
 }
 
@@ -138,7 +224,10 @@ export default [
     takeLatest('LOGIN', login ),
     takeLatest('REGISTER', register),
     takeLatest('LOGOUT', logout),
+    takeLatest('ADD_FOLLOWING', addFollowing),
     takeLatest('CANCEL_FOLLOWING', cancelFollowing),
+    takeLatest('LOAD_USER_INFO', getUserDetail),
+    takeLatest('LOAD_PEOPLE_INFO', getPeopleInfo )
 
 
 ];

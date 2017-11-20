@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Container,  Image, Grid, Header, Message,Divider, Comment ,Form, Button ,Icon, Loader} from 'semantic-ui-react';
+import LoaderDimmer from '../components/LoadingDimmer';
 
 import 'react-photoswipe/lib/photoswipe.css'
 import {PhotoSwipe} from 'react-photoswipe';
@@ -21,6 +22,11 @@ class AlbumDisplayContainer extends React.Component{
             },
             commentInput:'',
         }
+    }
+
+    componentDidMount(){
+
+        this.props.loadAlbumInfo(this.props.match.params.albumId)
     }
 
     getPhotoItems = (photoList)=>{
@@ -143,60 +149,62 @@ class AlbumDisplayContainer extends React.Component{
 
 
         return(
-            <Container>
-                <Header textAlign='center'>
-                    {this.props.albumDisplayInfo.albumName}
+            <LoaderDimmer active={this.props.albumDisplayInfo.albumInfoLoading}>
+                <Container>
+                    <Header textAlign='center'>
+                        {this.props.albumDisplayInfo.albumName}
 
-                    <Header.Subheader >
-                        <p/>
-                        <span>作者: </span><Link to={'/user/'+this.props.albumDisplayInfo.authorId}>{this.props.albumDisplayInfo.authorName}</Link>
-                        <p/>
-                    </Header.Subheader>
-                </Header>
-                <i align='center'>{this.props.albumDisplayInfo.albumDescription}</i>
+                        <Header.Subheader >
+                            <p/>
+                            <span>作者: </span><Link to={'/user/'+this.props.albumDisplayInfo.authorId}>{this.props.albumDisplayInfo.authorName}</Link>
+                            <p/>
+                        </Header.Subheader>
+                    </Header>
+                    <i align='center'>{this.props.albumDisplayInfo.albumDescription}</i>
 
-                <Divider/>
+                    <Divider/>
 
-                <Grid centered columns={1}>
-                    {this.getPhotoItems(this.props.albumDisplayInfo.photoList)}
-                    <Grid.Column key='starIcon' textAlign='center'>
-                        <Icon name='star' color="yellow" size='large' /><span>{this.props.albumDisplayInfo.starNum}</span>
-                        <p/>
-                        {
-                            this.props.albumDisplayInfo.hasStaredIt?
-                                <Button onClick={this.onClickCancelStar}>取消赞</Button>
-                                :
-                                <Button color='teal' onClick={this.onClickAddStar}>添加赞</Button>
-                        }
+                    <Grid centered columns={1}>
+                        {this.getPhotoItems(this.props.albumDisplayInfo.photoList)}
+                        <Grid.Column key='starIcon' textAlign='center'>
+                            <Icon name='star' color="yellow" size='large' /><span>{this.props.albumDisplayInfo.starNum}</span>
+                            <p/>
+                            {
+                                this.props.albumDisplayInfo.hasStaredIt?
+                                    <Button onClick={this.onClickCancelStar}>取消赞</Button>
+                                    :
+                                    <Button color='teal' onClick={this.onClickAddStar}>添加赞</Button>
+                            }
 
-                    </Grid.Column>
-                </Grid>
-
-
-
+                        </Grid.Column>
+                    </Grid>
 
 
-                <Comment.Group>
-                    <Header as='h3' dividing>评论</Header>
-
-                    {this.getComments(this.props.albumDisplayInfo.commentList)}
-
-                    <Form reply>
-                        <Form.TextArea onChange={this.onCommentInputChange}/>
-                        <Button content='评论' labelPosition='left' icon='edit' color='teal' onClick={this.onAddComment}/>
-                    </Form>
-                </Comment.Group>
 
 
-                <PhotoSwipe
-                    isOpen={this.state.photoSwipeOpen}
-                    items={this.getPhotoSwipeItems()}
-                    options={this.state.photoSwipeOption}
-                    onClose={this.handlePhotoSwipeClose}
-                />
+
+                    <Comment.Group>
+                        <Header as='h3' dividing>评论</Header>
+
+                        {this.getComments(this.props.albumDisplayInfo.commentList)}
+
+                        <Form reply>
+                            <Form.TextArea onChange={this.onCommentInputChange}/>
+                            <Button content='评论' labelPosition='left' icon='edit' color='teal' onClick={this.onAddComment}/>
+                        </Form>
+                    </Comment.Group>
 
 
-            </Container>
+                    <PhotoSwipe
+                        isOpen={this.state.photoSwipeOpen}
+                        items={this.getPhotoSwipeItems()}
+                        options={this.state.photoSwipeOption}
+                        onClose={this.handlePhotoSwipeClose}
+                    />
+
+
+                </Container>
+            </LoaderDimmer>
         );
 
     }
@@ -212,6 +220,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
+        loadAlbumInfo:(albumId)=>{
+
+            dispatch({
+                type: 'LOAD_ALBUM_INFO',
+                payload: {albumId: albumId}
+            });
+
+        },
         addStar: (userId, albumId)=>{
             dispatch({
                 type: 'ADD_ALBUM_STAR',

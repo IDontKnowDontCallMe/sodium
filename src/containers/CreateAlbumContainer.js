@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Container,Form, Label, Icon, Button, Input, Header} from 'semantic-ui-react'
+import {Container,Form, Label, Icon, Button, Input, Header} from 'semantic-ui-react';
+import LoaderDimmer from '../components/LoadingDimmer'
 
 import FineUploaderTraditional from 'fine-uploader-wrappers'
 import Gallery from 'react-fine-uploader'
@@ -230,7 +231,7 @@ class CreateAlbumContainer extends React.Component{
 
     getTagItems = (tagList)=>{
 
-        const colors = ['yellow', 'teal','green', 'blue', 'orange'];
+        const colors = ['teal', 'teal','teal', 'teal', 'teal'];
 
         return tagList.map((value, index)=>{
 
@@ -280,7 +281,7 @@ class CreateAlbumContainer extends React.Component{
 
         }
 
-        console.log(param)
+        this.props.createAlbum(param)
 
     }
 
@@ -289,60 +290,59 @@ class CreateAlbumContainer extends React.Component{
 
 
         return(
-
-            <Container>
-
-                <Form>
-                    <Form.Field required>
-                        <Form.Input label='标题' onChange={this.onHeadInputChange}/>
-                    </Form.Field>
-                    <Container>
-                        <Header as='h5'>标签: </Header>
-                        {
-                            this.getTagItems(this.state.tags)
-                        }
-                        {
-                            this.state.showTagInput?
-                                <Input
-                                    type='text'
-                                    onChange={this.writeTheTempTag}
-                                    action
-                                    style={{ maxWidth:100, maxHeight:30}}
-                                >
-                                    <input/>
-                                    <Button compact icon style={{ maxWidth:30, maxHeight:30}}>
-                                        <Icon color='red' name='delete' onClick={this.cancelAddTag}/>
-                                    </Button>
-                                    <Button compact icon style={{ maxWidth:30, maxHeight:30}}>
-                                        <Icon color='teal' name='add' onClick={this.addATag}/>
-                                    </Button>
-                                </Input>
-                                :
-                                <Button floated='right' color='teal' icon='add' onClick={this.clickAddTag} />
-                        }
-                    </Container>
-                    <Form.Field required>
-                        <Form.Select label='主题'  placeholder='请选择主题' options={themeOptions}  onChange={this.onThemeChange}/>
-                    </Form.Field>
-                    <Form.Field required>
-                        <Form.TextArea label='简介' placeholder='说些东西描述一下吧...'  onChange={this.onDescriptionChange}/>
-                    </Form.Field>
-
-                    <Form.Field>
-                        <Gallery
-                            fileInput-children={(<span><Icon name='upload' />选择文件</span>)}
-                            uploader={ this.uploader }
-                        />
-                    </Form.Field>
-
-                    <Button color='teal' onClick={this.clickCreate}>创建</Button>
-                </Form>
+            <LoaderDimmer active={this.props.albumDisplayInfo.createLoading}>
+                <Container>
 
 
+                    <Form>
+                        <Form.Field required>
+                            <Form.Input label='标题' onChange={this.onHeadInputChange}/>
+                        </Form.Field>
+                        <Container>
+                            <Header as='h5'>标签: </Header>
+                            {
+                                this.getTagItems(this.state.tags)
+                            }
+                            {
+                                this.state.showTagInput?
+                                    <Input
+                                        type='text'
+                                        onChange={this.writeTheTempTag}
+                                        action
+                                        style={{ maxWidth:100, maxHeight:30}}
+                                    >
+                                        <input/>
+                                        <Button compact icon style={{ maxWidth:30, maxHeight:30}}>
+                                            <Icon color='red' name='delete' onClick={this.cancelAddTag}/>
+                                        </Button>
+                                        <Button compact icon style={{ maxWidth:30, maxHeight:30}}>
+                                            <Icon color='teal' name='add' onClick={this.addATag}/>
+                                        </Button>
+                                    </Input>
+                                    :
+                                    <Button floated='right' color='teal' icon='add' onClick={this.clickAddTag} />
+                            }
+                        </Container>
+                        <Form.Field required>
+                            <Form.Select label='主题'  placeholder='请选择主题' options={themeOptions}  onChange={this.onThemeChange}/>
+                        </Form.Field>
+                        <Form.Field required>
+                            <Form.TextArea label='简介' placeholder='说些东西描述一下吧...'  onChange={this.onDescriptionChange}/>
+                        </Form.Field>
+
+                        <Form.Field>
+                            <Gallery
+                                fileInput-children={(<span><Icon name='upload' />选择文件</span>)}
+                                uploader={ this.uploader }
+                            />
+                        </Form.Field>
+
+                        <Button color='teal' onClick={this.clickCreate}>创建</Button>
+                    </Form>
 
 
-
-            </Container>
+                </Container>
+            </LoaderDimmer>
 
         );
 
@@ -354,20 +354,25 @@ const mapStateToProps = (state) => {
     return {
         mainInfo: state.mainInfo,
         photoAreaInfo : state.photoAreaInfo,
+        albumDisplayInfo : state.albumDisplayInfo,
     };
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        showLoginModal: () => {
+        createAlbum: ({head,description,theme,tags,imageFiles})=>{
+
             dispatch({
-                type: 'SHOW_LOGIN_MODAL',
-            });
-        },
-        closeLoginModal: () => {
-            dispatch({
-                type: 'CLOSE_LOGIN_MODAL',
-            });
+                type:'CREATE_ALBUM',
+                payload: {
+                    head : head,
+                    description: description,
+                    theme: theme,
+                    tags: tags,
+                    imageFiles:imageFiles,
+                },
+            })
+
         }
     };
 }

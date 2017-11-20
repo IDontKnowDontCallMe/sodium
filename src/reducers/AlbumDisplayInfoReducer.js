@@ -61,18 +61,21 @@ const sampleComments = [
 
 const initState = {
 
-    albumId: 1,
-    albumName: '样本相册',
-    theme: '人像',
-    albumDescription: '这是一条很长的描述这是一条很长的描述这是一条很长的描述这是一条很长的描述这是一条很长的描述',
-    authorId: 1,
-    authorName: 'Jack',
+    albumId: -1,
+    albumName: 'null',
+    theme: 'null',
+    albumDescription: 'null',
+    authorId: -1,
+    authorName: 'null',
 
-    starNum: 25,
+    starNum: 0,
     hasStaredIt: true,
 
-    photoList: samplePhotoList,
-    commentList: sampleComments,
+    photoList: [],
+    commentList: [],
+
+    createLoading: false,
+    albumInfoLoading: false,
 
 };
 
@@ -80,6 +83,38 @@ const initState = {
 
 export default function AlbumDisplayInfoReducer(state = initState, action) {
     switch (action.type) {
+        case 'CLEAR_ALBUM_INFO':
+            return {
+                albumId: -1,
+                albumName: 'null',
+                theme: 'null',
+                albumDescription: 'null',
+                authorId: -1,
+                authorName: 'null',
+
+                starNum: 0,
+                hasStaredIt: true,
+
+                photoList: [],
+                commentList: [],
+            }
+        case 'CHANGE_ALBUM_INFO':;
+            return {
+                ...state,
+                albumId: action.payload.albumId,
+                albumName: action.payload.albumName,
+                theme: action.payload.theme,
+                albumDescription: action.payload.albumDescription,
+                authorId: action.payload.authorId,
+                authorName: action.payload.authorName,
+
+                starNum: action.payload.starNum,
+                hasStaredIt: action.payload.hasStaredIt,
+
+                photoList: action.payload.photoList,
+                commentList: action.payload.commentList,
+            }
+
 
         case 'CHANGE_HAS_STAR_IT':
             return {
@@ -93,6 +128,31 @@ export default function AlbumDisplayInfoReducer(state = initState, action) {
                 ...state,
                 commentList: commentList
             }
+
+        case 'CREATE_ALBUM_LOADING_OPEN':
+            return {
+                ...state,
+                createLoading: true,
+            }
+
+        case 'CREATE_ALBUM_LOADING_CLOSE':
+            return {
+                ...state,
+                createLoading: false,
+            }
+
+        case 'ALBUM_INFO_LOADING_OPEN':
+            return {
+                ...state,
+                albumInfoLoading: true,
+            }
+
+        case 'ALBUM_INFO_LOADING_CLOSE':
+            return {
+                ...state,
+                albumInfoLoading: false,
+            }
+
 
         default:
             return state;

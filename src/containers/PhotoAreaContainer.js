@@ -15,6 +15,11 @@ class PhotoAreaContainer extends React.Component{
         }
     }
 
+    componentDidMount(){
+
+        this.props.getPhotosOfTheme('全部')
+    }
+
     clickMenuItem = (e, {name})=>{
 
         //console.log(name);

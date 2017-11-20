@@ -179,7 +179,9 @@ const initState = {
     activedPage: 1,
     pageNum: 2,
     photoItemList: pageOneList.slice(0,12),
-    allItemList: pageOneList,
+    allItemList: [],
+
+    photoAreaLoading: false,
 
 };
 
@@ -215,6 +217,18 @@ export default function PhotoAreaInfoReducer(state = initState, action) {
                 activedPage: targetPage,
                 photoItemList: state.allItemList.slice((targetPage-1)*12,(targetPage-1)*12+12),
             };
+
+        case 'PHOTO_AREA_LOADING_OPEN':
+            return {
+                ...state,
+                photoAreaLoading: true
+            }
+
+        case 'PHOTO_AREA_LOADING_CLOSE':
+            return{
+                ...state,
+                photoAreaLoading: false
+            }
 
 
         default:

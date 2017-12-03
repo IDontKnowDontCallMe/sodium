@@ -132,9 +132,11 @@ const initState = {
     pageNum: 2,
     pageIndex: 1,
 
+    searchLoading: false,
+
 };
 
-export default function MainInfoReducer(state = initState, action) {
+export default function PostAreaInfoReducer(state = initState, action) {
     switch (action.type) {
 
         case 'CHANGE_ALL_POST_LIST':
@@ -164,6 +166,20 @@ export default function MainInfoReducer(state = initState, action) {
                 pageIndex: targetPage,
                 postList: state.allPostList.slice((targetPage-1)*10,(targetPage-1)*10+10),
             };
+
+        case 'SEARCH_POST_LOADING_OPEN':
+            return {
+                ...state,
+                searchLoading:true
+            }
+
+        case 'SEARCH_POST_LOADING_CLOSE':
+            return {
+                ...state,
+                searchLoading:false
+            }
+
+
 
 
         default:

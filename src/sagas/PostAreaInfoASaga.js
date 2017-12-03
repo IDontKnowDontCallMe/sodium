@@ -4,19 +4,31 @@ import {history} from '../store'
 
 function* searchPost(action) {
 
-    try{
-        const searchList = yield call(searchPostApi, action.payload);
+    yield put({type: 'SEARCH_POST_LOADING_OPEN'})
 
-        yield put({type:'CHANGE_ALL_POST_LIST', payload: {postList: searchList, order: action.payload.order}});
+    try{
+        const result = yield call(searchPostApi, action.payload);
+
+
+        if(result.success){
+            yield put({type:'CHANGE_ALL_POST_LIST', payload: {postList: result.postList, order: action.payload.order}});
+        }
+        else {
+            alert('get post list false!')
+        }
+
     }
     catch (e){
         console.log('search error')
     }
 
+    yield put({type: 'SEARCH_POST_LOADING_CLOSE'})
 
 }
 
 function* createPost(action) {
+
+    yield put({type: 'CREATE_POST_LOADING_OPEN'})
 
     try{
 
@@ -35,6 +47,8 @@ function* createPost(action) {
     catch (e){
         console.log(e)
     }
+
+    yield put({type: 'CREATE_POST_LOADING_CLOSE'})
 
 }
 

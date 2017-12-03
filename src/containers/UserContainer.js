@@ -122,7 +122,7 @@ class UserContainer extends React.Component{
                                                     <List.Header><Link
                                                         to={'/post/' + value.postId}>{value.postName}</Link></List.Header>
                                                     <List.Description
-                                                        style={{float: 'right'}}>{value.answerNum + '回复' + '   ' + '发表于' + value.createdAt + ' '}</List.Description>
+                                                        style={{float: 'right'}}>{ '发表于' + value.createdAt + ' '}</List.Description>
                                                 </List.Content>
                                             </List.Item>
                                         );

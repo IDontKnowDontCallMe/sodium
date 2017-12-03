@@ -17,6 +17,12 @@ class PostDetailContainer extends React.Component{
         }
     }
 
+    componentDidMount(){
+
+        this.props.loadPostInfo(this.props.match.params.postId)
+        //this.props.loadPostInfo('8')
+    }
+
     onCommentChange = (e, {value})=>{
 
         //console.log(value)
@@ -120,6 +126,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         showLoginModal: () => {
             dispatch({
                 type: 'SHOW_LOGIN_MODAL',
+            });
+        },
+
+        loadPostInfo: (postId)=>{
+            dispatch({
+                type: 'LOAD_POST_INFO',
+                payload: {postId: postId}
             });
         },
 

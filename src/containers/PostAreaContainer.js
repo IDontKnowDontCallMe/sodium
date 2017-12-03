@@ -6,6 +6,12 @@ import {Link} from 'react-router-dom';
 
 class PostAreaContainer extends React.Component{
 
+    componentDidMount(){
+
+        //this.props.loadAlbumInfo(this.props.match.params.albumId)
+        this.props.changePostOrder('发帖时间')
+    }
+
 
     getPageMenu = (pageNum, activedPage)=>{
 
@@ -104,6 +110,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
+
         changePostOrder: (order) => {
             dispatch({
                 type: 'SEARCH_POST',

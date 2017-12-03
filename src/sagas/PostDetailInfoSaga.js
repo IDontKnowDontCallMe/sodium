@@ -1,5 +1,5 @@
 import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
-import {addPostCommentApi} from '../api/PostDetailInfoApi'
+import {addPostCommentApi, loadPostDetailApi} from '../api/PostDetailInfoApi'
 
 function* addPostComment(action) {
 
@@ -15,9 +15,38 @@ function* addPostComment(action) {
 
 }
 
+function* loadPostInfo(action) {
+
+    yield put({type:'CLEAR_POST_INFO'});
+    yield put({type: 'POST_INFO_LOADING_OPEN'});
+
+    try{
+
+        const result = yield call(loadPostDetailApi, action.payload);
+
+        if(result.success){
+
+            console.log(result)
+
+            yield put({type:'CHANGE_POST_INFO', payload: result})
+
+        }
+        else{
+            alert('load post info false!!!')
+        }
+    }
+    catch (e){
+        console.log(e)
+    }
+
+    yield put({type: 'POST_INFO_LOADING_CLOSE'})
+
+}
+
 export default [
 
     takeLatest('ADD_POST_COMMENT', addPostComment ),
+    takeLatest('LOAD_POST_INFO', loadPostInfo),
 
 
 ];

@@ -60,11 +60,42 @@ const initState = {
 
     postCommentList: sampleList,
 
+
+    createLoading: false,
+    postInfoLoading: false,
 };
 
 export default function MainInfoReducer(state = initState, action) {
     switch (action.type) {
 
+        case 'CLEAR_POST_INFO':
+            return {
+                ...state,
+                postId: -1,
+                postName: null,
+                authorId: -1,
+                authorName: null,
+                content: null,
+                createdAt: null,
+                updatedAt: null,
+
+                postCommentList: [],
+            }
+
+        case 'CHANGE_POST_INFO':
+
+            return {
+                ...state,
+                postId: action.payload.postId,
+                postName: action.payload.postName,
+                authorId: action.payload.authorId,
+                authorName: action.payload.authorName,
+                content: action.payload.content,
+                createdAt: action.payload.createdAt,
+                updatedAt: action.payload.updatedAt,
+
+                postCommentList: action.payload.postCommentList,
+            }
 
         case 'CHANGE_POST_COMMENT':
             const {postCommentList} = action.payload;
@@ -72,6 +103,30 @@ export default function MainInfoReducer(state = initState, action) {
                 ...state,
                 postCommentList: postCommentList,
             };
+
+        case 'POST_INFO_LOADING_OPEN':
+            return {
+                ...state,
+                postInfoLoading: true,
+            }
+
+        case 'POST_INFO_LOADING_CLOSE':
+            return {
+                ...state,
+                postInfoLoading: false,
+            }
+
+        case 'CREATE_POST_LOADING_OPEN':
+            return {
+                ...state,
+                createLoading: true,
+            }
+
+        case 'CREATE_POST_LOADING_CLOSE':
+            return {
+                ...state,
+                createLoading: false,
+            }
 
         default:
             return state;

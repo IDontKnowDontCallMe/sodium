@@ -1,3 +1,6 @@
+import {request} from '../until/request'
+const backendAddress = 'http://localhost:3000';
+
 export function addPostCommentApi(param) {
     console.log('api:addPostCommentApi')
     console.log(param)
@@ -58,4 +61,15 @@ export function addPostCommentApi(param) {
             createdAt: '2017-11-12 16:12'
         },
     ];
+}
+
+export function loadPostDetailApi(param) {
+
+    console.log('api:loadPostDetailApi')
+    console.log(param)
+
+    return request(backendAddress+`/postDetail/${param.postId}`, {
+        method: 'GET'
+    })
+
 }

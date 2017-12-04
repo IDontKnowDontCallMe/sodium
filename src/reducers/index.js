@@ -7,6 +7,7 @@ import PostAreaInfoReducer from './PostAreaInfoReducer';
 import PostDetailInfoReducer from './PostDetailInfoReducer';
 import PeopleInfoReducer from './PeopleInfoReducer';
 import UserInfoReducer from './UserInfoReducer';
+import VideoReducer from './VideoReducer';
 
 import {routerReducer} from 'react-router-redux';
 
@@ -21,6 +22,7 @@ export default combineReducers({
     peopleInfo: PeopleInfoReducer,
     userInfo: UserInfoReducer,
     user: UserReducer,
+    videoInfo: VideoReducer,
     router: routerReducer,
 
 });

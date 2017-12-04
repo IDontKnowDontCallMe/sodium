@@ -19,6 +19,8 @@ class HomePageContainer extends React.Component{
                 <Link to='/post/1'>post</Link>
                 <p/>
                 <Link to='/createPost'>create post</Link>
+                <p/>
+                <Link to='/video/111'>video</Link>
                 <div>233</div>
             </Container>
         );

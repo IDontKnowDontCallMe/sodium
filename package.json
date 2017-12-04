@@ -11,6 +11,7 @@
   "dependencies": {
     "fine-uploader": "^5.15.0",
     "fine-uploader-wrappers": "^1.0.1",
+    "hls.js": "^0.8.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-fine-uploader": "^1.0.7",

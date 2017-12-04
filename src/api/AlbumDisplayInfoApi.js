@@ -5,14 +5,28 @@ export function addAlbumStarApi(param) {
     console.log('api:addAlbumStarApi')
     console.log(param)
 
-    return true;
+    let headers = new Headers()
+    headers.append('Content-Type', 'application/json');
+
+    return request(backendAddress+'/private/addAlbumStar',{
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(param)
+    });
 }
 
 export function cancelAlbumStarApi(param) {
     console.log('api:cancelAlbumStarApi')
     console.log(param)
 
-    return true;
+    let headers = new Headers()
+    headers.append('Content-Type', 'application/json');
+
+    return request(backendAddress+'/private/cancelAlbumStar',{
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(param)
+    });
 }
 
 export function addAlbumCommentApi(param) {

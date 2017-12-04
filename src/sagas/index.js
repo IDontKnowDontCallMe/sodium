@@ -5,6 +5,7 @@ import AlbumDisplayInfoSaga from './AlbumDisplayInfoSaga';
 import PostDetailInfoSaga from './PostDetailInfoSaga';
 import UserSaga from './UserSage';
 import AlbumInfoSaga from './AlbumInfoSaga';
+import VideoSaga from './VideoSaga';
 
 
 export default function* rootSaga () {
@@ -17,6 +18,7 @@ export default function* rootSaga () {
     sagas.push(PostDetailInfoSaga);
     sagas.push(UserSaga);
     sagas.push(AlbumInfoSaga);
+    sagas.push(VideoSaga);
 
     yield [
 

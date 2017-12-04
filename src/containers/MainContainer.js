@@ -15,6 +15,8 @@ import PostDetailContainer from './PostDetailContainer';
 import HomePageContainer from './HomePageContainer';
 import PeopleInfoContainer from './PeopleInfoContainer';
 import UserContainer from './UserContainer';
+import CreateVideoContainer from './CreateVideoContainer';
+import VideoPlayerContainer from './VideoPlayerContainer';
 
 
 class MainContainer extends React.Component{
@@ -62,6 +64,8 @@ class MainContainer extends React.Component{
                         <Route path="/createPost" exact  component={CreatePostContainer}/>
                         <Route path="/postArea" exact  component={PostAreaContainer}/>
                         <Route path="/peopleInfo" exact  component={PeopleInfoContainer}/>
+                        <Route path="/createVideo" exact  component={CreateVideoContainer}/>
+                        <Route path="/video/:videoId" exact  component={VideoPlayerContainer}/>
                     </Switch>
                 </Container>
 

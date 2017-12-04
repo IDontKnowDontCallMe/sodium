@@ -18,8 +18,8 @@ class MainMenu extends React.Component{
         else if(pathName==='/postArea'){
             name='交流区'
         }
-        else if(pathName==='/activityArea'){
-            name='活动区'
+        else if(pathName==='/videoArea'){
+            name='视频区'
         }
 
         this.state = {
@@ -42,7 +42,8 @@ class MainMenu extends React.Component{
             case '交流区':
                 history.push('/postArea');
                 break;
-            case '活动区':
+            case '视频区':
+
                 break;
             default: break;
         }
@@ -60,7 +61,8 @@ class MainMenu extends React.Component{
             case '发帖子':
                 history.push('/createPost');
                 break;
-            case '发活动':
+            case '发视频':
+                history.push('/createVideo');
                 break;
             default: break;
         }
@@ -84,7 +86,7 @@ class MainMenu extends React.Component{
                         <Menu.Item key='1' name='首页' color='teal' active={this.state.activedMenuItem==='首页'} onClick={this.clickMenuItem}/>
                         <Menu.Item key='2' name='图片区' color='teal' active={this.state.activedMenuItem==='图片区'} onClick={this.clickMenuItem}/>
                         <Menu.Item key='3' name='交流区' color='teal' active={this.state.activedMenuItem==='交流区'} onClick={this.clickMenuItem}/>
-                        <Menu.Item key='4' name='活动区' color='teal' active={this.state.activedMenuItem==='活动区'} onClick={this.clickMenuItem}/>
+                        <Menu.Item key='4' name='视频区' color='teal' active={this.state.activedMenuItem==='视频区'} onClick={this.clickMenuItem}/>
                         {
                             hasLogined?
                                 <Menu.Menu position='right'>
@@ -93,7 +95,7 @@ class MainMenu extends React.Component{
                                             <Dropdown.Item onClick={this.clickDropDownItem}>个人中心</Dropdown.Item>
                                             <Dropdown.Item onClick={this.clickDropDownItem}>发相册</Dropdown.Item>
                                             <Dropdown.Item onClick={this.clickDropDownItem}>发帖子</Dropdown.Item>
-                                            <Dropdown.Item onClick={this.clickDropDownItem}>发活动</Dropdown.Item>
+                                            <Dropdown.Item onClick={this.clickDropDownItem}>发视频</Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     <Menu.Item>

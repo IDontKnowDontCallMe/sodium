@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Container, Tab, Feed, Item, Button, Icon, List,Message} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
+import {history} from '../store';
 import LoadingDimmer from '../components/LoadingDimmer';
 
 
@@ -9,6 +10,13 @@ import LoadingDimmer from '../components/LoadingDimmer';
 class UserContainer extends React.Component{
 
 
+    componentWillMount(){
+
+        if(this.props.mainInfo.userId === this.props.userInfo.userId){
+            history.replace('/peopleInfo')
+        }
+
+    }
 
     componentDidMount(){
 

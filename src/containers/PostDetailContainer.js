@@ -35,8 +35,10 @@ class PostDetailContainer extends React.Component{
 
     onAddComment = ()=>{
 
+        let toId = -1;
+
         if(this.props.mainInfo.hasLogined){
-            this.props.addPostComment(this.props.mainInfo.userId, this.props.postDetailInfo.postId, this.state.commentInput);
+            this.props.addPostComment(this.props.mainInfo.userId, toId, this.props.postDetailInfo.postId, this.state.commentInput);
 
             // this.setState({
             //     ...this.state,
@@ -77,32 +79,38 @@ class PostDetailContainer extends React.Component{
                     <Header as='h3' dividing>回帖</Header>
 
                     {
-                        postDetailInfo.postCommentList.map((value, index, arrray)=>{
+                        postDetailInfo.postCommentList.length === 0?
+                            <Header>暂无评论!</Header>
+                            :
 
-                            return (
-                                <Comment key={index}>
-                                    <Comment.Content>
-                                        <Comment.Author as='a'>{value.authorName}</Comment.Author>
-                                        <Comment.Metadata>
-                                            <div>{value.createdAt}</div>
-                                        </Comment.Metadata>
-                                        {
-                                            value.toId===-1?
-                                                <span></span>
-                                                :
-                                                <Comment.Text><a>@{value.toName}</a></Comment.Text>
-                                        }
-                                        <Comment.Text>{value.content}</Comment.Text>
-                                    </Comment.Content>
-                                </Comment>
-                            );
+                            postDetailInfo.postCommentList.map((value, index, arrray)=>{
 
-                        })
+                                return (
+                                    <Comment key={index}>
+                                        <Comment.Avatar src={value.authorAvatar} />
+                                        <Comment.Content>
+                                            <Comment.Author as='a'>{value.authorName}</Comment.Author>
+                                            <Comment.Metadata>
+                                                <div>{value.createdAt}</div>
+                                            </Comment.Metadata>
+                                            {
+                                                value.toId===-1?
+                                                    <span></span>
+                                                    :
+                                                    <Comment.Text><a>@{value.toName}</a></Comment.Text>
+                                            }
+                                            <Comment.Text>{value.content}</Comment.Text>
+                                        </Comment.Content>
+                                    </Comment>
+                                );
+
+                            })
+
                     }
 
                     <Form reply>
                         <Form.TextArea onChange={this.onCommentChange}/>
-                        <Button content='回复' labelPosition='left' icon='edit' color='teal' onClick={this.onAddComment}/>
+                        <Button disabled={!this.props.mainInfo.hasLogined} content='回复' labelPosition='left' icon='edit' color='teal' onClick={this.onAddComment}/>
                     </Form>
                 </Comment.Group>
 
@@ -136,10 +144,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             });
         },
 
-        addPostComment: (userId, postId, content)=>{
+        addPostComment: (userId, toId, postId, content)=>{
             dispatch({
                 type: 'ADD_POST_COMMENT',
-                payload: {userId: userId, postId:postId, content:content},
+                payload: {userId: userId, toId: toId, postId:postId, content:content},
             });
         }
 

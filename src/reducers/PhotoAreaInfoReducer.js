@@ -177,8 +177,8 @@ const initState = {
 
     activedTheme: '全部',
     activedPage: 1,
-    pageNum: 2,
-    photoItemList: pageOneList.slice(0,12),
+    pageNum: 1,
+    photoItemList: [],
     allItemList: [],
 
     photoAreaLoading: false,

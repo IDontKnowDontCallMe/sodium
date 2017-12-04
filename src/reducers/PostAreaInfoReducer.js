@@ -126,10 +126,10 @@ const sampleList = [
 
 const initState = {
 
-    allPostList: sampleList,
-    postList: sampleList.slice(0, 10),
+    allPostList: [],
+    postList: [],
     choosedLabel:  '发帖时间',
-    pageNum: 2,
+    pageNum: 1,
     pageIndex: 1,
 
     searchLoading: false,

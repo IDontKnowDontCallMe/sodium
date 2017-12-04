@@ -31,11 +31,18 @@ function * cancelAlbumStar(action) {
 }
 
 
-function * addAlbumComment(action) {
+function* addAlbumComment(action) {
     try{
-        const newCommentList = yield call(addAlbumCommentApi, action.payload);
+        const result = yield call(addAlbumCommentApi, action.payload);
 
-        yield put({type:'CHANGE_COMMENTS', payload: {commentList: newCommentList}});
+       if(result.success){
+           yield put({type:'CHANGE_COMMENTS', payload: {commentList: result.commentList}});
+       }
+       else {
+           alert('add comment false!')
+       }
+
+
     }
     catch (e){
         console.log('add album comment error')

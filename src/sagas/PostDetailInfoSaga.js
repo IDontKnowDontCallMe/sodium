@@ -4,9 +4,14 @@ import {addPostCommentApi, loadPostDetailApi} from '../api/PostDetailInfoApi'
 function* addPostComment(action) {
 
     try{
-        const newPostCommentList = yield call(addPostCommentApi, action.payload);
+        const result = yield call(addPostCommentApi, action.payload);
 
-        yield put({type:'CHANGE_POST_COMMENT', payload: {postCommentList: newPostCommentList}});
+        if(result.success){
+            yield put({type:'CHANGE_POST_COMMENT', payload: {postCommentList: result.postCommentList}});
+        }
+        else {
+            alert('add post comment false!!')
+        }
     }
     catch (e){
         console.log('add post answer error')

@@ -107,6 +107,7 @@ class AlbumDisplayContainer extends React.Component{
             return commentList.map((value, index, array)=>{
                 return (
                     <Comment key={index}>
+                        <Comment.Avatar src={value.authorAvatar} />
                         <Comment.Content>
                             <Comment.Author as='a'>{value.authorName}</Comment.Author>
                             <Comment.Metadata>
@@ -174,7 +175,7 @@ class AlbumDisplayContainer extends React.Component{
                                 this.props.albumDisplayInfo.hasStaredIt?
                                     <Button onClick={this.onClickCancelStar}>取消赞</Button>
                                     :
-                                    <Button color='teal' onClick={this.onClickAddStar}>添加赞</Button>
+                                    <Button color='teal' onClick={this.onClickAddStar} disabled={!this.props.mainInfo.hasLogined}>添加赞</Button>
                             }
 
                         </Grid.Column>
@@ -191,7 +192,7 @@ class AlbumDisplayContainer extends React.Component{
 
                         <Form reply>
                             <Form.TextArea onChange={this.onCommentInputChange}/>
-                            <Button content='评论' labelPosition='left' icon='edit' color='teal' onClick={this.onAddComment}/>
+                            <Button disabled={!this.props.mainInfo.hasLogined} content='评论' labelPosition='left' icon='edit' color='teal' onClick={this.onAddComment}/>
                         </Form>
                     </Comment.Group>
 

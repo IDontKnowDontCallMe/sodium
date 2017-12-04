@@ -117,9 +117,17 @@ export default function AlbumDisplayInfoReducer(state = initState, action) {
 
 
         case 'CHANGE_HAS_STAR_IT':
+            let starNum = state.starNum;
+            if(state.hasStaredIt){
+                starNum--;
+            }
+            else {
+                starNum++;
+            }
             return {
                 ...state,
                 hasStaredIt: !state.hasStaredIt,
+                starNum: starNum,
             };
 
         case 'CHANGE_COMMENTS':

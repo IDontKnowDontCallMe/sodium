@@ -17,7 +17,7 @@ class PostDetailContainer extends React.Component{
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
 
         this.props.loadPostInfo(this.props.match.params.postId)
         //this.props.loadPostInfo('8')

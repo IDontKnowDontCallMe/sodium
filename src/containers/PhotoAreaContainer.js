@@ -15,7 +15,7 @@ class PhotoAreaContainer extends React.Component{
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
 
         this.props.getPhotosOfTheme('全部')
     }

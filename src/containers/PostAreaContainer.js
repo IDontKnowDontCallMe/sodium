@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 
 class PostAreaContainer extends React.Component{
 
-    componentDidMount(){
+    componentWillMount(){
 
         //this.props.loadAlbumInfo(this.props.match.params.albumId)
         this.props.changePostOrder('发帖时间')

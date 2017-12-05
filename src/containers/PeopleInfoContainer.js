@@ -9,7 +9,7 @@ import LoadingDimmer from '../components/LoadingDimmer'
 class PeopleInfoContainer extends React.Component{
 
 
-    componentDidMount(){
+    componentWillMount(){
         this.props.loadPeopleInfo();
 
     }

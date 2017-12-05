@@ -16,12 +16,13 @@ class UserContainer extends React.Component{
             history.replace('/peopleInfo')
         }
 
-    }
-
-    componentDidMount(){
-
         this.props.loadUserInfo(this.props.match.params.userId)
     }
+
+    // componentDidMount(){
+    //
+    //
+    // }
 
     addFollowingMethod = (followingId) =>{
 

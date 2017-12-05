@@ -14,9 +14,19 @@ class VideoPlayerContainer extends React.Component{
     componentDidMount() {
 
         if(Hls.isSupported()) {
-            var video = document.getElementById('video');
-            var hls = new Hls();
-            hls.loadSource('http://localhost:3000/videos/45bdd35e-cd47-43a5-81c9-cb26a7bc40d4/45bdd35e-cd47-43a5-81c9-cb26a7bc40d4.m3u8');
+            let video = document.getElementById('video');
+            let hls = new Hls();
+
+            let videoId = Number(this.props.match.params.videoId);
+            let videoSrc = null;
+            for(let v of this.props.mainInfo.hotVideos){
+                if(videoId === v.id){
+                    videoSrc = v.origin;
+                    break;
+                }
+            }
+
+            hls.loadSource(videoSrc);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function () {
                 //video.play();

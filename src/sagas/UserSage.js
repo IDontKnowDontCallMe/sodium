@@ -1,5 +1,5 @@
 import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
-import {loginApi, registerApi, logoutApi,tryLoginApi,getUserDetailInfoApi,addFollowingApi, cancelFollowingApi, getPeopleInfoApi } from '../api/UserApi';
+import {loginApi, registerApi, logoutApi,tryLoginApi,getUserDetailInfoApi,addFollowingApi, cancelFollowingApi, getPeopleInfoApi, getHomePageContentApi } from '../api/UserApi';
 import {history} from '../store'
 
 function* login(action) {
@@ -216,7 +216,25 @@ function* addFollowing(action){
 
 }
 
+function* loadHomePage(action) {
 
+    try{
+        const result = yield call(getHomePageContentApi);
+
+        if(result.success){
+
+            yield put({type: 'UPDATE_HOME_PAGE', payload:{hotAlbums: result.hotAlbums, hotPosts: result.hotPosts, hotVideos: result.hotVideos}})
+
+        }
+        else {
+            alert('get home page false !!!')
+        }
+    }
+    catch (e){
+        console.log(e)
+    }
+
+}
 
 
 export default [
@@ -227,7 +245,8 @@ export default [
     takeLatest('ADD_FOLLOWING', addFollowing),
     takeLatest('CANCEL_FOLLOWING', cancelFollowing),
     takeLatest('LOAD_USER_INFO', getUserDetail),
-    takeLatest('LOAD_PEOPLE_INFO', getPeopleInfo )
+    takeLatest('LOAD_PEOPLE_INFO', getPeopleInfo ),
+    takeLatest('LOAD_HOME_PAGE', loadHomePage)
 
 
 ];

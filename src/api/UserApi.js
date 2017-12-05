@@ -180,3 +180,11 @@ export async function getUserDetailInfoApi(param){
     })
 
 }
+
+export async function getHomePageContentApi() {
+    console.log('api:getHomePageContentApi')
+
+    return request(backendAddress+'/getHomePage',{
+        method: 'GET',
+    })
+}

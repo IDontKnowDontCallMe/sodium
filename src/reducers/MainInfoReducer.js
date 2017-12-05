@@ -5,6 +5,10 @@ const initState = {
     userName: 'Man',
     userAvatar: 'https://react.semantic-ui.com/assets/images/avatar/large/elliot.jpg',
 
+    hotAlbums: [],
+    hotPosts: [],
+    hotVideos: [],
+
     showLoginModal: false,
     loginButtonLoading: false,
     loginErrorString: '',
@@ -25,6 +29,16 @@ export default function MainInfoReducer(state = initState, action) {
         //         userId: action.payload.userId,
         //         userName: action.payload.userName,
         //     };
+
+        case 'UPDATE_HOME_PAGE':
+            return {
+                ...state,
+                hotAlbums: action.payload.hotAlbums,
+                hotPosts: action.payload.hotPosts,
+                hotVideos: action.payload.hotVideos,
+            }
+
+
         case 'SHOW_LOGIN_MODAL':
             return {
                 ...state,

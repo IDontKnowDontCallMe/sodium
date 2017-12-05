@@ -24,7 +24,7 @@ class AlbumDisplayContainer extends React.Component{
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
 
         this.props.loadAlbumInfo(this.props.match.params.albumId)
         //this.props.loadAlbumInfo('10')

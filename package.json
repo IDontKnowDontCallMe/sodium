@@ -6,12 +6,15 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build_client": "webpack",
+    "build_server": "webpack webpack.server.config.js"
   },
   "dependencies": {
     "fine-uploader": "^5.15.0",
     "fine-uploader-wrappers": "^1.0.1",
     "hls.js": "^0.8.7",
+    "koa": "^2.4.1",
+    "koa-static": "^4.0.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-fine-uploader": "^1.0.7",
@@ -25,7 +28,8 @@
     "redux-saga": "^0.15.6",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.74.2",
-    "wangeditor": "^3.0.10"
+    "wangeditor": "^3.0.10",
+    "webpack-isomorphic-tools": "^3.0.5"
   },
   "author": "sjl",
   "license": "ISC",
